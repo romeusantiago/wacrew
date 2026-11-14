@@ -10,7 +10,7 @@ You will get a first answer within 3 business days. Once the issue is confirmed,
 
 ## Supported versions
 
-WACrew is self-hosted and released from `main`. Security fixes land on the latest release and on `main`; older versions do not receive patches, so keep your deployment updated (`git pull && docker compose up -d --build`, or `npx -y wacrew-mcp@latest` for the MCP package).
+WACrew is self-hosted and released from `main`. Security fixes land on the latest release and on `main`; older versions do not receive patches, so keep your deployment updated (`docker compose pull && docker compose up -d`, or `npx -y wacrew-mcp@latest` for the MCP package).
 
 ## Scope
 

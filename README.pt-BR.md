@@ -86,14 +86,14 @@ Abra `http://localhost:3000/config`, escaneie o QR (WhatsApp › Aparelhos conec
 
 ```bash
 cp .env.example .env   # defina PANEL_USER e PANEL_PASS
-docker compose up -d --build
+docker compose up -d
 ```
 
 [![Implantar na Hostinger](site/assets/badges/deploy-hostinger-pt.svg)](https://www.hostinger.com/br/servidor-vps?REFERRALCODE=ORISHODIRBUH)
 
 <sub>Link de indicação: você ganha desconto na VPS e o projeto recebe uma comissão que ajuda a mantê-lo.</sub>
 
-**Outras nuvens.** Faça o build do `Dockerfile` em qualquer servidor (na Railway funciona direto) com um volume em `/data`. Defina `PANEL_USER` e `PANEL_PASS` para proteger o painel com login; sem elas o painel fica aberto, o que só serve no localhost.
+**Outras nuvens.** Use a imagem pronta `ghcr.io/sumioshi/wacrew` ou faça o build do `Dockerfile` em qualquer servidor (na Railway funciona direto) com um volume em `/data`. Defina `PANEL_USER` e `PANEL_PASS` para proteger o painel com login; sem elas o painel fica aberto, o que só serve no localhost.
 
 ## Ferramentas MCP
 

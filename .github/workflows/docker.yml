@@ -1,0 +1,64 @@
+name: Imagem Docker (GHCR)
+
+# Publica ghcr.io/sumioshi/wacrew, a imagem que o docker-compose.yml usa. Assim a VPS só
+# baixa e sobe, sem compilar coletor e painel na própria máquina.
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+    paths:
+      - "src/**"
+      - "web/**"
+      - "patches/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - "tsconfig*.json"
+      - "Dockerfile"
+      - ".dockerignore"
+      - "docker-entrypoint.sh"
+      - ".github/workflows/docker.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          # latest acompanha a main; tag v1.2.3 vira 1.2.3 e 1.2; sha-xxxxxxx para voltar atrás.
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+          labels: |
+            org.opencontainers.image.title=WACrew
+            org.opencontainers.image.description=Open-source WhatsApp AI agent: collector, panel and MCP server
+            org.opencontainers.image.licenses=Apache-2.0
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

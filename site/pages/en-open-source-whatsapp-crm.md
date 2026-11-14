@@ -44,7 +44,7 @@ Your client conversations are sensitive, so WACrew does not run as a shared clou
 
 ```bash
 git clone https://github.com/sumioshi/wacrew && cd wacrew
-PANEL_USER=admin PANEL_PASS=change-me docker compose up -d --build
+PANEL_USER=admin PANEL_PASS=change-me docker compose up -d
 ```
 
 ## Good to know

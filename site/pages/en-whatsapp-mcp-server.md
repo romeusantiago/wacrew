@@ -36,7 +36,7 @@ WACrew has two parts: the **collector**, a small server that stays connected to 
 
 ```bash
 git clone https://github.com/sumioshi/wacrew && cd wacrew
-PANEL_USER=admin PANEL_PASS=change-me docker compose up -d --build
+PANEL_USER=admin PANEL_PASS=change-me docker compose up -d
 ```
 
 Open `http://<server-ip>:3000/config` and scan the QR code with WhatsApp (Linked devices). Then add the MCP server to Claude Code:

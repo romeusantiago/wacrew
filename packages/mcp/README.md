@@ -18,7 +18,7 @@ A running WACrew panel (the collector that connects to WhatsApp). Run it with Do
 
 ```bash
 git clone https://github.com/sumioshi/wacrew && cd wacrew
-PANEL_USER=admin PANEL_PASS=change-me docker compose up -d --build
+PANEL_USER=admin PANEL_PASS=change-me docker compose up -d
 ```
 
 Open `http://<server-ip>:3000/config` and scan the QR code with WhatsApp.

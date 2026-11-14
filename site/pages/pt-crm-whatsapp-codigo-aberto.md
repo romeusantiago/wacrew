@@ -44,7 +44,7 @@ Conversa de cliente é sensível, então o WACrew não roda como serviço compar
 
 ```bash
 git clone https://github.com/sumioshi/wacrew && cd wacrew
-PANEL_USER=admin PANEL_PASS=troque-esta-senha docker compose up -d --build
+PANEL_USER=admin PANEL_PASS=troque-esta-senha docker compose up -d
 ```
 
 ## Bom saber

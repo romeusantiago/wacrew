@@ -1115,7 +1115,7 @@ main > section { position: relative; z-index: 1; }
             <p class="mono-label">Why run it 24/7?</p>
             <p class="vps-hook">WACrew only records what arrives while it is running. <strong>Turn your computer off and the messages from that period never reach the history or the queue</strong>, and the client who wrote at 3am drops off the radar.</p>
             <p>On a VPS it never sleeps. Paste this command on the server (change the password first). The WhatsApp session and the data live in a volume and survive updates.</p>
-            <div class="cmd cmd-vps"><code><span class="d" aria-hidden="true">$ </span>git clone https://github.com/sumioshi/wacrew &amp;&amp; cd wacrew &amp;&amp; PANEL_USER=admin PANEL_PASS=change-this-password docker compose up -d --build</code><button class="copy-btn" type="button" data-copy="git clone https://github.com/sumioshi/wacrew &amp;&amp; cd wacrew &amp;&amp; PANEL_USER=admin PANEL_PASS=change-this-password docker compose up -d --build" aria-label="Copy the command to run on a VPS">Copy</button></div>
+            <div class="cmd cmd-vps"><code><span class="d" aria-hidden="true">$ </span>git clone https://github.com/sumioshi/wacrew &amp;&amp; cd wacrew &amp;&amp; PANEL_USER=admin PANEL_PASS=change-this-password docker compose up -d</code><button class="copy-btn" type="button" data-copy="git clone https://github.com/sumioshi/wacrew &amp;&amp; cd wacrew &amp;&amp; PANEL_USER=admin PANEL_PASS=change-this-password docker compose up -d" aria-label="Copy the command to run on a VPS">Copy</button></div>
             <p class="vps-after">Then open <code>http://your-server-ip:3000/config</code> and scan the QR code.</p>
           </div>
           <aside class="host-card" aria-label="VPS on Hostinger">

@@ -1116,7 +1116,7 @@ main > section { position: relative; z-index: 1; }
             <p class="mono-label">Por que rodar 24 horas?</p>
             <p class="vps-hook">O WACrew só guarda o que chega enquanto está ligado. <strong>Desligou o computador, as mensagens desse período não entram no histórico nem na fila</strong>, e o cliente que escreveu de madrugada some do radar.</p>
             <p>Numa VPS ele não dorme nunca. Cole este comando no servidor (troque a senha antes); a sessão do WhatsApp e os dados ficam num volume e sobrevivem às atualizações.</p>
-            <div class="cmd cmd-vps"><code><span class="d" aria-hidden="true">$ </span>git clone https://github.com/sumioshi/wacrew &amp;&amp; cd wacrew &amp;&amp; PANEL_USER=admin PANEL_PASS=troque-esta-senha docker compose up -d --build</code><button class="copy-btn" type="button" data-copy="git clone https://github.com/sumioshi/wacrew &amp;&amp; cd wacrew &amp;&amp; PANEL_USER=admin PANEL_PASS=troque-esta-senha docker compose up -d --build" aria-label="Copiar comando para rodar numa VPS">Copiar</button></div>
+            <div class="cmd cmd-vps"><code><span class="d" aria-hidden="true">$ </span>git clone https://github.com/sumioshi/wacrew &amp;&amp; cd wacrew &amp;&amp; PANEL_USER=admin PANEL_PASS=troque-esta-senha docker compose up -d</code><button class="copy-btn" type="button" data-copy="git clone https://github.com/sumioshi/wacrew &amp;&amp; cd wacrew &amp;&amp; PANEL_USER=admin PANEL_PASS=troque-esta-senha docker compose up -d" aria-label="Copiar comando para rodar numa VPS">Copiar</button></div>
             <p class="vps-after">Depois abra <code>http://ip-do-servidor:3000/config</code> e escaneie o QR.</p>
           </div>
           <aside class="host-card" aria-label="VPS na Hostinger">
