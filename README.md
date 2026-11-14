@@ -1,4 +1,4 @@
-<p align="center"><img src="site/assets/logo/wacrew-mark.svg" alt="WACrew" width="96"></p>
+<p align="center"><img src="docs/assets/wacrew-mark.svg" alt="WACrew" width="96"></p>
 
 <h1 align="center">WACrew</h1>
 
@@ -89,7 +89,7 @@ cp .env.example .env   # set PANEL_USER and PANEL_PASS
 docker compose up -d
 ```
 
-[![Deploy on Hostinger](site/assets/badges/deploy-hostinger-en.svg)](https://www.hostinger.com/vps-hosting?REFERRALCODE=ORISHODIRBUH) [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/wacrew?referralCode=8ZIi5q&utm_medium=integration&utm_source=template&utm_campaign=generic)
+[![Deploy on Hostinger](docs/assets/deploy-hostinger-en.svg)](https://www.hostinger.com/vps-hosting?REFERRALCODE=ORISHODIRBUH) [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/wacrew?referralCode=8ZIi5q&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
 <sub>Referral links: you get a discount or credits, and the project earns a commission that helps keep it maintained. On Railway the template sets up the volume, the login and a generated password for you.</sub>
 
