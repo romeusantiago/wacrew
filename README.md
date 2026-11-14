@@ -40,7 +40,7 @@ A chatbot does not fix that. Canned answers read like a robot, clients notice, a
 
 **Nobody waits.** Every group and direct chat lands in one queue sorted by waiting time. A client's group and their private chats show up together, back-to-back messages collapse into one block, and voice notes arrive transcribed.
 
-**Writes like you, delivers like a person.** The AI reads the history and writes with your punctuation, openings and rhythm, measured on your own past messages. Before anything leaves, a deterministic review blocks robot clichés, repeated apologies and duplicate bubbles. Delivery comes with read receipt, typing indicator and pauses, and it stops on its own if the client writes again or you answer from your phone.
+**Writes like you, delivers like a person.** The AI reads the history and writes with your punctuation, openings and rhythm, measured on your own past messages. Before anything leaves, a deterministic review blocks robot clichés, repeated apologies and duplicate bubbles (the generic part of it is also a standalone library, [botsmell](https://github.com/sumioshi/botsmell)). Delivery comes with read receipt, typing indicator and pauses, and it stops on its own if the client writes again or you answer from your phone.
 
 **You stay in control.** In *Confirm* mode (the default) nothing is sent without your OK. *Autonomous* mode is turned on per chat. Every message records who wrote it: you on the phone, you on the panel, a teammate, or the AI.
 

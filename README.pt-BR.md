@@ -40,7 +40,7 @@ Chatbot não resolve. Resposta pronta tem cara de robô, o cliente sente e a rel
 
 **Ninguém fica esperando.** Todo grupo e conversa individual cai numa fila por tempo de espera. Grupo e conversas individuais do mesmo cliente aparecem juntos, mensagens seguidas viram um bloco só e o áudio chega transcrito.
 
-**Escreve como você, entrega como gente.** A IA lê o histórico e escreve com a sua pontuação, as suas aberturas e o seu ritmo, medidos nas suas próprias mensagens. Antes de sair, uma revisão em código barra clichê de robô, desculpa repetida e balão igual ao anterior. A entrega tem visto, digitando e pausa, e para sozinha se o cliente escrever de novo ou se você responder pelo celular.
+**Escreve como você, entrega como gente.** A IA lê o histórico e escreve com a sua pontuação, as suas aberturas e o seu ritmo, medidos nas suas próprias mensagens. Antes de sair, uma revisão em código barra clichê de robô, desculpa repetida e balão igual ao anterior (a parte genérica dela também existe como biblioteca separada, a [botsmell](https://github.com/sumioshi/botsmell)). A entrega tem visto, digitando e pausa, e para sozinha se o cliente escrever de novo ou se você responder pelo celular.
 
 **Você no controle.** No modo *Confirmar* (o padrão) nada sai sem o seu OK. O modo *Autônomo* é ligado por conversa. Cada mensagem registra quem escreveu: você pelo celular, você pelo painel, alguém da equipe ou a IA.
 
