@@ -360,7 +360,9 @@ server.registerTool(
   "listar_grupos",
   {
     description:
-      "Lista os grupos coletados (slug, nome, nº de mensagens, data da última). Use o slug nas outras ferramentas.",
+      "Lista todos os chats coletados, grupos e DMs (slug, nome, nº de mensagens, data da última), mais os grupos monitorados " +
+      "e os renomeados. Comece por aqui: o slug é o identificador que as outras ferramentas pedem. Pra achar uma pessoa por " +
+      "nome ou número, use 'listar_contatos'.",
     inputSchema: {},
   },
   async () => {
@@ -385,7 +387,9 @@ server.registerTool(
   "ler_mensagens",
   {
     description:
-      "Lê as mensagens de um grupo (texto + transcrições já feitas). Filtra por data inicial e limita " +
+      "Lê o histórico de UM chat, grupo ou DM (texto + transcrições já feitas). Pra 'quem está esperando' em todos os chats use " +
+      "'caixa_de_entrada'; o que chegou desde a última checagem nos chats com alerta, 'novidades'; um dia inteiro pra resumir, " +
+      "'resumo_do_dia'; achar um termo, 'buscar'. Filtra por data inicial e limita " +
       "a quantidade. Default: as 50 mais recentes (passe 'limite' maior, ou 'desde', pra ir além) — " +
       "evita despejar o grupo inteiro quando você só quer o contexto recente. " +
       "Cada msg traz `timestamp` (UTC) e `hora_brt` (hora de Brasília já convertida) — use a hora_brt " +
@@ -456,7 +460,7 @@ server.registerTool(
     description:
       "Busca um texto nas mensagens e transcrições. Sem 'grupo', procura em todos. Retorna os trechos " +
       "que casam (mais recentes primeiro), limitado a 'limite' (default 50) pra não estourar — se " +
-      "truncar, o retorno avisa em 'truncado'.",
+      "truncar, o retorno avisa em 'truncado'. Pra ler a conversa em volta de um resultado, use 'ler_mensagens' com 'desde'.",
     inputSchema: {
       texto: z.string().describe("termo a procurar (case-insensitive)"),
       grupo: z.string().optional().describe("slug para restringir a um grupo"),
@@ -556,7 +560,8 @@ server.registerTool(
   "resumo_do_dia",
   {
     description:
-      "Retorna todo o conteúdo de um grupo num dia (texto + transcrições) para a IA resumir. Default: hoje (UTC).",
+      "Devolve TODAS as mensagens de um chat num dia (texto + transcrições, transcrevendo os áudios que faltam) pra você resumir. " +
+      "Default: hoje (data em UTC). Pras mensagens recentes sem recorte por dia, use 'ler_mensagens'.",
     inputSchema: {
       grupo: z.string().describe("slug do grupo"),
       data: z.string().optional().describe("YYYY-MM-DD; default = hoje"),
@@ -680,8 +685,10 @@ server.registerTool(
   "ver_video",
   {
     description:
-      "Mostra um vídeo ou GIF pra IA enxergar, amostrando alguns frames (via ffmpeg). Use pra entender o conteúdo visual de um GIF (reação/meme) ou de um vídeo mudo. Para o áudio do vídeo, use 'transcrever'; pra entender imagem e fala juntos (ex.: cliente mostrando um erro), use 'assistir_video'. " +
-      "Sem mediaPath, mostra o ÚLTIMO vídeo/GIF do grupo.",
+      "Tira alguns quadros (imagens paradas) de um vídeo ou GIF do chat, sem áudio e sem custo (ffmpeg local). " +
+      "Use pra GIF/meme ou pra uma olhada rápida no visual. Não ouve nada: pra entender o que é mostrado E falado " +
+      "(ex.: cliente gravando um erro na tela) use 'assistir_video' (pago); pra só a fala, 'transcrever'. " +
+      "Sem mediaPath, usa o ÚLTIMO vídeo/GIF do grupo.",
     inputSchema: {
       grupo: z.string().describe("slug do grupo"),
       mediaPath: z
@@ -716,7 +723,8 @@ server.registerTool(
   "assistir_video",
   {
     description:
-      "Assiste um vídeo com o Gemini (imagem e áudio juntos) e devolve o que aparece e o que é falado, com tempos MM:SS. " +
+      "Assiste um vídeo inteiro com o Gemini (imagem e áudio juntos) e devolve o que aparece e o que é falado, com tempos MM:SS. " +
+      "Diferente de 'ver_video', que só tira quadros sem som. " +
       "Use quando o conteúdo do vídeo importa: cliente mostrando erro na tela, explicando algo em vídeo, ou mandando LINK " +
       "de vídeo (YouTube, Instagram, TikTok). Custa ~US$ 0,03–0,05 por minuto de vídeo (OpenRouter): chame sob demanda, nunca em " +
       "lote. GIF/meme ou só uma olhada rápida: prefira 'ver_video' (grátis). " +
@@ -858,10 +866,10 @@ server.registerTool(
   "preparar_resposta",
   {
     description:
-      "Chame ANTES de redigir qualquer mensagem pra um chat. Devolve o que a conta já usou nas últimas 5 mensagens " +
+      "Passo 1 de 2 do envio: chame ANTES de escrever qualquer mensagem pra um chat (não recebe texto). Devolve o que a conta já usou nas últimas 5 mensagens " +
       "ali (aberturas, verbos, pontuação, tamanhos), o estado da conversa (ativa/fria, o que o cliente deixou em " +
       "aberto, se o operador já respondeu na mão) e `instrucoes` numéricas pra variar. Escreva seguindo as " +
-      "instruções; o `responder` revisa e recusa o que estourar.",
+      "instruções; o `responder` revisa e recusa o que estourar. Pra conferir um rascunho já escrito, use 'revisar_texto'.",
     inputSchema: { grupo: z.string().describe("slug, nome exato ou jid do chat") },
   },
   async ({ grupo }) => {
@@ -915,9 +923,10 @@ server.registerTool(
   "revisar_texto",
   {
     description:
-      "Revisa um rascunho SEM enviar: repetição contra as últimas mensagens do chat, dois-pontos e outros tells, " +
+      "Passo 2 de 2 do envio: revisa um rascunho JÁ ESCRITO, sem enviar (o contexto antes de escrever vem de 'preparar_resposta'). " +
+      "Confere repetição contra as últimas mensagens do chat, dois-pontos e outros tells, " +
       "auto-incriminação, desculpa, tratamento. Devolve ok/score/hits/sugestoes. No modo 'confirmar', revise, " +
-      "corrija e só então mostre o texto ao operador.",
+      "corrija e só então mostre o texto ao operador. O 'responder' roda esta mesma revisão ao enviar.",
     inputSchema: {
       grupo: z.string().describe("slug, nome exato ou jid do chat"),
       baloes: z.array(z.string().min(1)).min(1).max(8).describe("rascunho, um item por balão"),
@@ -1353,7 +1362,9 @@ server.registerTool(
   {
     description:
       "Estado de uma entrega humanizada: por chat (grupo) ou por ticket. Devolve estado (agendado/entregando/" +
-      "entregue/cancelado/interrompido), motivo, balões enviados/total e previsão.",
+      "entregue/cancelado/interrompido), motivo, balões enviados/total e previsão. Use depois do 'responder' pra saber se " +
+      "a mensagem já saiu: 'entregando 0/N' por alguns minutos é o ritmo humano, não travamento. Passe grupo OU ticket; " +
+      "pra cancelar, 'cancelar_envio'.",
     inputSchema: {
       grupo: z.string().optional().describe("slug, nome exato ou jid"),
       ticket: z.string().optional().describe("id do ticket devolvido pelo responder"),
@@ -1500,7 +1511,9 @@ server.registerTool(
   "marcar_resolvido",
   {
     description:
-      "Marca o grupo como resolvido (tira da fila de pendências) até o momento dado. Sem 'ate', usa agora.",
+      "Tira um chat (grupo ou DM) da fila de pendências marcando-o como resolvido até um momento: mensagem de cliente que " +
+      "chegar DEPOIS faz ele voltar pra fila. Não envia nada nem avisa o cliente. Sem 'ate', usa agora. Pra parar de alertar " +
+      "o chat de vez, use 'silenciar_grupo'.",
     inputSchema: {
       grupo: z.string().describe("slug do grupo (de listar_grupos)"),
       ate: z
@@ -1523,7 +1536,10 @@ server.registerTool(
 server.registerTool(
   "silenciar_grupo",
   {
-    description: "Silencia/dessilencia um grupo (coleta mas não alerta).",
+    description:
+      "Silencia (true) ou reativa (false) um chat, grupo ou DM: as mensagens continuam sendo coletadas e lidas, mas o chat " +
+      "sai da fila de pendências e não alerta. Use em grupo de aviso ou conversa que não pede resposta. Reversível. Pra tirar " +
+      "da fila só até agora (volta se o cliente escrever), use 'marcar_resolvido'.",
     inputSchema: {
       grupo: z.string().describe("slug do grupo (de listar_grupos)"),
       silenciar: z.boolean().describe("true = silencia; false = dessilencia"),
@@ -1542,7 +1558,10 @@ server.registerTool(
 server.registerTool(
   "anotar",
   {
-    description: "Salva/atualiza a nota livre (mini-CRM) de um grupo. Nota vazia remove a nota.",
+    description:
+      "Grava a nota livre (mini-CRM) de um chat, SUBSTITUINDO a anterior por inteiro: pra acrescentar, leia antes com " +
+      "'ler_notas'. Use pra contexto que não está nas mensagens (combinados, contatos, preferências do cliente). " +
+      "Fica só no painel, o cliente não vê. Nota vazia apaga.",
     inputSchema: {
       grupo: z.string().describe("slug do grupo (de listar_grupos)"),
       nota: z.string().describe("texto da nota; vazio remove a entrada"),
@@ -1561,7 +1580,7 @@ server.registerTool(
 server.registerTool(
   "ler_notas",
   {
-    description: "Lê as notas dos grupos. Com 'grupo', traz só a dele; sem, traz todas.",
+    description: "Lê as notas livres (mini-CRM) gravadas com 'anotar'. Com 'grupo', só a daquele chat; sem, todas. Só lê.",
     inputSchema: {
       grupo: z.string().optional().describe("slug para restringir a um grupo"),
     },
@@ -1668,7 +1687,8 @@ server.registerTool(
   "novidades",
   {
     description:
-      "Puxa as mensagens novas dos chats marcados com alerta desde a última vez que você viu. " +
+      "Puxa as mensagens novas dos chats marcados com alerta desde a última vez que você viu, e marca como visto. " +
+      "Pra ver quem espera em todos os chats sem marcar nada, use 'caixa_de_entrada'. " +
       "FILTRA só mensagens de CLIENTE (descarta as suas e as do time) — em grupo interno isso pode " +
       "voltar vazio mesmo tendo msg nova; nesse caso o retorno traz `ignoradas_por_papel` e uma nota " +
       "sugerindo ler_mensagens. Use ao ser notificado de mensagem nova. Avança o checkpoint (não " +
