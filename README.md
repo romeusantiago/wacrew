@@ -89,11 +89,11 @@ cp .env.example .env   # set PANEL_USER and PANEL_PASS
 docker compose up -d
 ```
 
-[![Deploy on Hostinger](site/assets/badges/deploy-hostinger-en.svg)](https://www.hostinger.com/vps-hosting?REFERRALCODE=ORISHODIRBUH)
+[![Deploy on Hostinger](site/assets/badges/deploy-hostinger-en.svg)](https://www.hostinger.com/vps-hosting?REFERRALCODE=ORISHODIRBUH) [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/wacrew?referralCode=8ZIi5q&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
-<sub>Referral link: you get a discount on the VPS and the project earns a commission that helps keep it maintained.</sub>
+<sub>Referral links: you get a discount or credits, and the project earns a commission that helps keep it maintained. On Railway the template sets up the volume, the login and a generated password for you.</sub>
 
-**Other clouds.** Run the prebuilt image `ghcr.io/sumioshi/wacrew` or build the `Dockerfile` on any host (Railway works out of the box) with a volume at `/data`. Set `PANEL_USER` and `PANEL_PASS` to protect the panel with login; without them the panel is open, which is only fine on localhost.
+**Other clouds.** Run the prebuilt image `ghcr.io/sumioshi/wacrew` or build the `Dockerfile` on any host with a volume at `/data`. Set `PANEL_USER` and `PANEL_PASS` to protect the panel with login; without them the panel is open, which is only fine on localhost.
 
 ## MCP tools
 
