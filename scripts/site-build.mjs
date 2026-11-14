@@ -22,6 +22,8 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const SRC = join(ROOT, "site");
 const OUT = join(ROOT, "_site");
 const POSTS_DIR = join(SRC, "blog", "posts");
+// Páginas por tema (uma por busca-alvo), em português e inglês, ligadas por hreflang.
+const PAGES_DIR = join(SRC, "pages");
 
 const SITE = {
   url: "https://wacrew.com.br",
@@ -34,6 +36,32 @@ const SITE = {
   blogTitle: "Blog do WACrew",
   blogDescription:
     "Guias práticos sobre atendimento de clientes no WhatsApp, automação com IA que não parece robô e agentes de código conectados por MCP.",
+};
+
+// Textos fixos do template por idioma.
+const T = {
+  "pt-BR": {
+    locale: "pt_BR", skip: "Pular para o conteúdo", home: "/", howItWorks: "Como funciona", blog: "Blog", github: "Ver no GitHub",
+    nav: "Principal", footNav: "Rodapé", made: "Feito por", independent: "Projeto independente, sem vínculo com o WhatsApp ou a Meta.",
+    other: "English", otherLang: "en", start: "Início", trail: "Trilha", updated: "Atualizado em", toc: "Nesta página",
+    ctaLabel: "Código aberto · Apache 2.0", ctaTitle: "O WACrew é grátis e roda na sua máquina.",
+    ctaText: "Fila por tempo de espera, respostas na sua voz entregues no ritmo de gente e um servidor MCP para o seu agente de código. Você aprova cada mensagem ou deixa no automático, conversa por conversa.",
+    ctaMore: "Conhecer o WACrew", related: "Veja também",
+  },
+  en: {
+    locale: "en_US", skip: "Skip to content", home: "/en/", howItWorks: "How it works", blog: "Blog (PT)", github: "View on GitHub",
+    nav: "Main", footNav: "Footer", made: "Made by", independent: "Independent project, not affiliated with WhatsApp or Meta.",
+    other: "Português", otherLang: "pt-BR", start: "Home", trail: "Breadcrumb", updated: "Updated", toc: "On this page",
+    ctaLabel: "Open source · Apache 2.0", ctaTitle: "WACrew is free and runs on your own server.",
+    ctaText: "An inbox sorted by who has waited longest, replies in your own voice delivered at a human pace, and an MCP server for your coding agent. Approve every message or switch a chat to autonomous mode.",
+    ctaMore: "See WACrew", related: "See also",
+  },
+};
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const dataPorIdioma = (iso, lang) => {
+  if (lang !== "en") return dataExtenso(iso);
+  const [y, m, d] = iso.split("-").map(Number);
+  return `${MONTHS[m - 1]} ${d}, ${y}`;
 };
 
 // ---------------------------------------------------------------- marked
@@ -291,9 +319,13 @@ footer.foot p{margin:0}
 @media (max-width:560px){nav.links .hide-sm{display:none}body{font-size:16.5px}.prose h2{font-size:26px}.cta{padding:22px}}
 `;
 
-function head({ title, description, canonical, ogType, extra = "", ld }) {
+function head({ title, description, canonical, ogType, extra = "", ld, lang = "pt-BR", alternates = [] }) {
+  const t = T[lang];
+  const hreflang = alternates
+    .map((a) => `<link rel="alternate" hreflang="${a.lang}" href="${SITE.url}${a.path}">\n`)
+    .join("");
   return `<!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="${lang}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -306,7 +338,7 @@ function head({ title, description, canonical, ogType, extra = "", ld }) {
 <meta name="author" content="${esc(SITE.author.name)}">
 <link rel="author" href="https://rodrigosumioshi.com">
 <meta property="og:type" content="${ogType}">
-<meta property="og:locale" content="pt_BR">
+<meta property="og:locale" content="${t.locale}">
 <meta property="og:site_name" content="${SITE.name}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
@@ -320,7 +352,7 @@ function head({ title, description, canonical, ogType, extra = "", ld }) {
 <meta name="twitter:description" content="${esc(description)}">
 <meta name="twitter:image" content="${SITE.ogImage}">
 <meta name="twitter:image:alt" content="${esc(SITE.ogImageAlt)}">
-${extra}<link rel="alternate" type="application/rss+xml" title="${SITE.blogTitle}" href="${SITE.url}/feed.xml">
+${hreflang}${extra}<link rel="alternate" type="application/rss+xml" title="${SITE.blogTitle}" href="${SITE.url}/feed.xml">
 <link rel="icon" href="/assets/logo/wacrew-app.svg" type="image/svg+xml">
 <link rel="icon" href="/icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -335,31 +367,36 @@ ${jsonLd(ld)}
 </head>`;
 }
 
-function topbar(current) {
-  return `<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+function topbar(current, lang = "pt-BR", otherPath = null) {
+  const t = T[lang];
+  const other = otherPath
+    ? `<a class="hide-sm" href="${otherPath}" hreflang="${t.otherLang}" lang="${t.otherLang}">${t.other}</a>\n      `
+    : "";
+  return `<a class="skip" href="#conteudo">${t.skip}</a>
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="/" style="display:inline-flex;align-items:center;gap:8px"><img src="/assets/logo/wacrew-mark.svg" alt="" width="26" height="26" style="image-rendering:pixelated;display:block">WACrew</a>
-    <nav class="links" aria-label="Principal">
-      <a class="hide-sm" href="/#como-funciona">Como funciona</a>
-      <a href="/blog/"${current === "blog" ? ' aria-current="page"' : ""}>Blog</a>
-      <a class="btn btn-sm" href="${SITE.repo}">Ver no GitHub</a>
+    <a class="brand" href="${t.home}" style="display:inline-flex;align-items:center;gap:8px"><img src="/assets/logo/wacrew-mark.svg" alt="" width="26" height="26" style="image-rendering:pixelated;display:block">WACrew</a>
+    <nav class="links" aria-label="${t.nav}">
+      <a class="hide-sm" href="${t.home}#como-funciona">${t.howItWorks}</a>
+      <a href="/blog/"${current === "blog" ? ' aria-current="page"' : ""}>${t.blog}</a>
+      ${other}<a class="btn btn-sm" href="${SITE.repo}">${t.github}</a>
     </nav>
   </div>
 </header>`;
 }
 
-function footer() {
+function footer(lang = "pt-BR") {
+  const t = T[lang];
   return `<footer class="foot">
   <div class="wrap">
-    <nav aria-label="Rodapé">
-      <a href="/">WACrew</a>
-      <a href="/blog/">Blog</a>
+    <nav aria-label="${t.footNav}">
+      <a href="${t.home}">WACrew</a>
+      <a href="/blog/">${t.blog}</a>
       <a href="${SITE.repo}">GitHub</a>
       <a href="/feed.xml">RSS</a>
       <span>Apache 2.0</span>
     </nav>
-    <p>Feito por <a href="https://rodrigosumioshi.com" rel="author">Rodrigo Sumioshi</a>. Projeto independente, sem vínculo com o WhatsApp ou a Meta.</p>
+    <p>${t.made} <a href="https://rodrigosumioshi.com" rel="author">Rodrigo Sumioshi</a>. ${t.independent}</p>
   </div>
 </footer>
 </body>
@@ -400,16 +437,88 @@ const PUBLISHER = {
 };
 const AUTHOR = { "@type": "Person", name: SITE.author.name, url: SITE.author.url, sameAs: SITE.author.sameAs };
 
-function ctaBlock() {
+function ctaBlock(lang = "pt-BR") {
+  const t = T[lang];
   return `<aside class="cta" aria-labelledby="cta-titulo">
-  <p class="label">Código aberto · Apache 2.0</p>
-  <h2 id="cta-titulo">O WACrew é grátis e roda na sua máquina.</h2>
-  <p>Fila por tempo de espera, respostas na sua voz entregues no ritmo de gente e um servidor MCP para o seu agente de código. Você aprova cada mensagem ou deixa no automático, conversa por conversa.</p>
+  <p class="label">${t.ctaLabel}</p>
+  <h2 id="cta-titulo">${t.ctaTitle}</h2>
+  <p>${t.ctaText}</p>
   <div class="row">
-    <a class="btn" href="${SITE.repo}">Ver no GitHub</a>
-    <a href="/">Conhecer o WACrew</a>
+    <a class="btn" href="${SITE.repo}">${t.github}</a>
+    <a href="${t.home}">${t.ctaMore}</a>
   </div>
 </aside>`;
+}
+
+// Página por tema: mesmo visual do post, sem data de blog; idioma e par vêm do front matter.
+function renderPage(page, pages) {
+  const lang = page.lang;
+  const t = T[lang];
+  const canonical = SITE.url + page.path;
+  const par = page.alternate ? pages.find((p) => p.path === page.alternate) : null;
+  const alternates = par
+    ? [
+        { lang: page.lang, path: page.path },
+        { lang: par.lang, path: par.path },
+        { lang: "x-default", path: lang === "en" ? page.path : par.path },
+      ]
+    : [];
+  const trail = [
+    { name: t.start, path: t.home },
+    { name: page.title, path: page.path },
+  ];
+  const ld = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "@id": `${canonical}#article`,
+        headline: page.title,
+        description: page.description,
+        image: [SITE.ogImage],
+        datePublished: isoComFuso(page.date),
+        dateModified: isoComFuso(page.updated),
+        inLanguage: lang,
+        keywords: page.keyword || undefined,
+        author: AUTHOR,
+        publisher: PUBLISHER,
+        about: { "@id": `${SITE.url}/#software` },
+        mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      },
+      breadcrumbLd(trail),
+    ],
+  };
+  const toc = page.headings.length >= 3
+    ? `<nav class="toc" aria-labelledby="toc-titulo"><p class="label" id="toc-titulo">${t.toc}</p><ol>${page.headings
+        .map((h) => `<li><a href="#${h.id}">${esc(h.text)}</a></li>`)
+        .join("")}</ol></nav>`
+    : "";
+  const irmas = pages.filter((p) => p.lang === lang && p.path !== page.path);
+  const related = irmas.length
+    ? `<section class="related" aria-labelledby="rel-titulo"><p class="label" id="rel-titulo">${t.related}</p><ul>${irmas
+        .map((p) => `<li><a href="${p.path}">${esc(p.title)}</a></li>`)
+        .join("")}</ul></section>`
+    : "";
+  return `${head({ title: page.seoTitle || `${page.title} · WACrew`, description: page.description, canonical, ogType: "article", ld, lang, alternates })}
+<body>
+${topbar("page", lang, par ? par.path : null)}
+<main id="conteudo">
+  <article class="read">
+    <nav aria-label="${t.trail}">${crumbs(trail)}</nav>
+    <h1>${esc(page.title)}</h1>
+    <p class="lead">${esc(page.description)}</p>
+    <div class="meta">
+      <span class="label">${t.updated} <time datetime="${page.updated}">${dataPorIdioma(page.updated, lang)}</time></span>
+    </div>
+    ${toc}
+    <div class="prose">
+${page.html}
+    </div>
+    ${ctaBlock(lang)}
+    ${related}
+  </article>
+</main>
+${footer(lang)}`;
 }
 
 function renderPost(post, all) {
@@ -550,9 +659,14 @@ ${footer()}`;
 
 function renderSitemap(entries) {
   const urls = entries
-    .map((e) => `  <url>\n    <loc>${xml(e.loc)}</loc>\n    <lastmod>${e.lastmod}</lastmod>\n  </url>`)
+    .map((e) => {
+      const alt = (e.alternates || [])
+        .map((a) => `\n    <xhtml:link rel="alternate" hreflang="${a.lang}" href="${xml(SITE.url + a.path)}"/>`)
+        .join("");
+      return `  <url>\n    <loc>${xml(e.loc)}</loc>\n    <lastmod>${e.lastmod}</lastmod>${alt}\n  </url>`;
+    })
     .join("\n");
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}\n</urlset>\n`;
 }
 
 function renderRobots() {
@@ -598,7 +712,7 @@ ${items}
 // Leitor de feed não resolve caminho relativo: troca "/x" por "https://wacrew.com.br/x".
 const absolutize = (html) => html.replace(/(href|src)="\/(?!\/)/g, `$1="${SITE.url}/`);
 
-function renderLlms(posts) {
+function renderLlms(posts, pages = []) {
   const postLines = posts
     .map((p) => `- [${p.title}](${SITE.url}/blog/${p.slug}/index.md): ${p.description}`)
     .join("\n");
@@ -617,7 +731,6 @@ Fatos para citar com precisão:
 - Roda local (Node.js 20+; transcrição MLX no Apple Silicon ou por API) ou 24 horas com o Dockerfile incluso (Railway ou outro servidor).
 - Limites: não é a API oficial do WhatsApp. Conecta como um aparelho a mais na conta, via Baileys (WhatsApp Web multidispositivo). Foi feito para atender quem já fala com você; disparo em massa e abordagem fria podem bloquear o número. Não importa histórico anterior ao pareamento.
 - Preço: o código é grátis. Paga-se o uso da IA no provedor escolhido (com a própria chave) e o servidor, se rodar na nuvem.
-- Uso real (novembro de 2026): 3.209 mensagens de clientes em 30 dias, 3 min de mediana até a primeira resposta, 24 entregas registradas no mês.
 - Projeto independente, sem vínculo com o WhatsApp ou a Meta. Autor: Rodrigo Sumioshi.
 
 ## Produto
@@ -630,6 +743,14 @@ Fatos para citar com precisão:
 ## Blog
 
 ${postLines}
+
+## Páginas por tema / Topic pages
+
+${pages.map((p) => `- [${p.title}](${SITE.url}${p.path}) (${p.lang}): ${p.description}`).join("\n")}
+
+## English
+
+- [WACrew in English](${SITE.url}/en/): open-source WhatsApp AI agent and MCP server.
 
 ## Opcional
 
@@ -650,7 +771,7 @@ async function main() {
   mkdirSync(OUT, { recursive: true });
   cpSync(SRC, OUT, {
     recursive: true,
-    filter: (src) => !relative(SRC, src).startsWith(join("blog", "posts")) && !src.endsWith(".DS_Store"),
+    filter: (src) => !relative(SRC, src).startsWith(join("blog", "posts")) && !relative(SRC, src).startsWith("pages") && !src.endsWith(".DS_Store"),
   });
 
   const posts = [];
@@ -682,23 +803,54 @@ async function main() {
   mkdirSync(join(OUT, "blog"), { recursive: true });
   writeFileSync(join(OUT, "blog", "index.html"), renderBlogIndex(posts));
 
+  const pages = [];
+  if (existsSync(PAGES_DIR)) {
+    for (const f of readdirSync(PAGES_DIR).filter((n) => n.endsWith(".md")).sort()) {
+      const { data, body } = parseFrontMatter(readFileSync(join(PAGES_DIR, f), "utf8"), f);
+      if (data.draft === "true") continue;
+      if (!T[data.lang]) throw new Error(`${f}: lang precisa ser pt-BR ou en`);
+      if (!/^\/([a-z0-9-]+\/)+$/.test(data.path || "")) throw new Error(`${f}: path inválido "${data.path}"`);
+      if (pages.some((p) => p.path === data.path)) throw new Error(`path repetido: ${data.path}`);
+      const { html, headings } = render(body);
+      pages.push({ ...data, body, html, headings });
+    }
+  }
+  for (const pg of pages) {
+    if (pg.alternate && !pages.some((p) => p.path === pg.alternate)) throw new Error(`${pg.path}: alternate inexistente ${pg.alternate}`);
+    const dir = join(OUT, ...pg.path.split("/").filter(Boolean));
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(join(dir, "index.html"), renderPage(pg, pages));
+  }
+
+  const homeAlt = existsSync(join(SRC, "en", "index.html"))
+    ? [{ lang: "pt-BR", path: "/" }, { lang: "en", path: "/en/" }, { lang: "x-default", path: "/en/" }]
+    : undefined;
+  const pageAlt = (pg) => {
+    const par = pg.alternate && pages.find((p) => p.path === pg.alternate);
+    return par
+      ? [{ lang: pg.lang, path: pg.path }, { lang: par.lang, path: par.path }, { lang: "x-default", path: pg.lang === "en" ? pg.path : par.path }]
+      : undefined;
+  };
   const newest = posts.map((p) => p.updated).sort().at(-1);
   const sitemap = [
-    { loc: `${SITE.url}/`, lastmod: lastmodOf(join(SRC, "index.html")) },
+    { loc: `${SITE.url}/`, lastmod: lastmodOf(join(SRC, "index.html")), alternates: homeAlt },
+    ...(homeAlt ? [{ loc: `${SITE.url}/en/`, lastmod: lastmodOf(join(SRC, "en", "index.html")), alternates: homeAlt }] : []),
+    ...pages.map((pg) => ({ loc: SITE.url + pg.path, lastmod: pg.updated, alternates: pageAlt(pg) })),
     ...(posts.length ? [{ loc: `${SITE.url}/blog/`, lastmod: newest }] : []),
     ...posts.map((p) => ({ loc: `${SITE.url}/blog/${p.slug}/`, lastmod: p.updated })),
   ];
   writeFileSync(join(OUT, "sitemap.xml"), renderSitemap(sitemap));
   writeFileSync(join(OUT, "robots.txt"), renderRobots());
   writeFileSync(join(OUT, "feed.xml"), renderFeed(posts));
-  writeFileSync(join(OUT, "llms.txt"), renderLlms(posts));
+  writeFileSync(join(OUT, "llms.txt"), renderLlms(posts, pages));
   writeFileSync(join(OUT, "CNAME"), "wacrew.com.br\n");
 
   const size = (d) => readdirSync(d).reduce((n, f) => {
     const p = join(d, f);
     return n + (statSync(p).isDirectory() ? size(p) : 1);
   }, 0);
-  console.log(`_site pronto: ${posts.length} post(s), ${size(OUT)} arquivos`);
+  console.log(`_site pronto: ${posts.length} post(s), ${pages.length} página(s), ${size(OUT)} arquivos`);
+  for (const pg of pages) console.log(`  ${pg.path}  (${pg.lang})`);
   for (const p of posts) console.log(`  /blog/${p.slug}/  ${p.words} palavras`);
 }
 

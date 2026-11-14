@@ -88,8 +88,6 @@ O [WACrew](/) foi feito para resolver exatamente esse problema. Ele é de códig
 
 ![Escritório 2D do WACrew em pixel art, com uma mesa por projeto de cliente](/assets/screens/escritorio.webp "No escritório 2D, cada projeto é uma mesa; quando chega mensagem de cliente sem resposta, a mesa fica vermelha na hora.")
 
-Em uso real, em novembro de 2026: 3.209 mensagens de clientes em 30 dias, 3 minutos de mediana até a primeira resposta e 24 entregas registradas no mês. São números de uma operação só; servem de referência, não de promessa.
-
 A IA rascunha a resposta e, no modo padrão, nada sai sem o seu OK. Como ela escreve e entrega sem parecer robô está explicado em [Automação de WhatsApp com IA sem cara de robô](/blog/automacao-de-whatsapp-com-ia/). Se você usa agente de código, também dá para [conectar o WhatsApp ao Claude Code com MCP](/blog/whatsapp-mcp-claude-code/) e atender pelo terminal.
 
 Dois limites antes de testar: o WACrew **não é a API oficial do WhatsApp** e foi feito para atender quem já fala com você, não para disparo em massa. E ele não importa histórico antigo; a captura começa quando você conecta o número.

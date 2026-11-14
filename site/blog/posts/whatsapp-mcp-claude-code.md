@@ -134,4 +134,4 @@ Depois, o MCP local pode ler direto do painel na nuvem. Parta do `.mcp.json.remo
 
 Com o agente lendo e respondendo, o próximo passo é organizar a fila. O guia de [como atender grupos de clientes no WhatsApp sem deixar ninguém esperando](/blog/atender-grupos-de-clientes-no-whatsapp/) mostra o método que usamos. E para entender por que a entrega demora de propósito e o que a revisão barra, leia [Automação de WhatsApp com IA sem cara de robô](/blog/automacao-de-whatsapp-com-ia/).
 
-A lista completa das 36 ferramentas está no [README do projeto](https://github.com/sumioshi/wacrew/blob/main/README.pt-BR.md). O código é aberto, com licença Apache 2.0, e está no [GitHub](https://github.com/sumioshi/wacrew).
+Para a visão geral do servidor, com a tabela das ferramentas e a comparação com outras formas de ligar o WhatsApp a um agente, veja a página do [servidor MCP de WhatsApp](/servidor-mcp-whatsapp/). A lista completa das 36 ferramentas também está no [README do projeto](https://github.com/sumioshi/wacrew/blob/main/README.pt-BR.md). O código é aberto, com licença Apache 2.0, e está no [GitHub](https://github.com/sumioshi/wacrew).

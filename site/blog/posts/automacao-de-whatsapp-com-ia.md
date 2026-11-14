@@ -97,7 +97,7 @@ Se você está comparando opções, estas perguntas separam rápido o que soa hu
 
 ## Na prática, aqui
 
-Em uso real, em novembro de 2026, foram 3.209 mensagens de clientes em 30 dias e 3 minutos de mediana até a primeira resposta. É um caso só; o seu resultado depende do seu volume e de quanto você deixa no automático.
+Numa conversa ativa, a mediana até começar a digitar fica em torno de 30 segundos; numa conversa fria, a espera sobe para minutos ou horas, como faria uma pessoa. Quanto você deixa no automático é escolha sua, conversa por conversa.
 
 Se o seu problema hoje é mais de organização do que de texto, comece pelo guia de [como atender grupos de clientes no WhatsApp sem deixar ninguém esperando](/blog/atender-grupos-de-clientes-no-whatsapp/). Se você trabalha com agente de código, veja [como conectar o WhatsApp ao Claude Code com MCP](/blog/whatsapp-mcp-claude-code/).
 
