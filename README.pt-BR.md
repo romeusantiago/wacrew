@@ -3,9 +3,16 @@
 <h1 align="center">WACrew</h1>
 
 <p align="center">
-  <b>Automação de WhatsApp com IA, de código aberto, para quem atende clientes em grupo.</b><br>
-  Uma fila por tempo de espera, respostas escritas na sua voz e entregues no ritmo de gente,<br>
-  um CRM de clientes, um escritório 2D ao vivo e um servidor MCP para o seu agente de código atender também.
+  <b>Uma IA que responde seu WhatsApp na sua voz, para o cliente falar com você e não com um robô.</b><br>
+  Põe todos os grupos e conversas numa fila por tempo de espera, escreve com a sua pontuação e o seu ritmo<br>
+  e entrega no ritmo de gente. Você aprova cada resposta ou deixa a conversa no automático.<br>
+  Código aberto, na sua máquina, com servidor MCP para o Claude Code, o Cursor ou o Codex atenderem também.
+</p>
+
+<p align="center">
+  <a href="https://railway.com/deploy/wacrew?referralCode=8ZIi5q&utm_medium=integration&utm_source=template&utm_campaign=readme"><img alt="Deploy on Railway" src="https://railway.com/button.svg" height="32"></a>
+  <a href="https://www.hostinger.com/br/servidor-vps?REFERRALCODE=ORISHODIRBUH"><img alt="Implantar na Hostinger" src="docs/assets/deploy-hostinger-pt.svg" height="32"></a>
+  <br><sub>Um clique na Railway, VPS com 20% de desconto na Hostinger (links de indicação que ajudam a manter o projeto) ou <a href="#começar">rode na sua máquina</a>.</sub>
 </p>
 
 <p align="center">
@@ -18,7 +25,7 @@
   <a href="https://glama.ai/mcp/servers/sumioshi/wacrew"><img alt="Glama score" src="https://glama.ai/mcp/servers/sumioshi/wacrew/badges/score.svg"></a>
 </p>
 
-<p align="center"><a href="https://wacrew.com.br">wacrew.com.br</a> · <a href="./README.md">Read in English</a></p>
+<p align="center"><a href="https://wacrew.com.br">wacrew.com.br</a> · <a href="./README.md">Read in English</a> · ⭐ <b>Se o WACrew te ajuda, uma estrela ajuda outras pessoas a acharem.</b></p>
 
 <p align="center"><img src="docs/screenshots/demo-auto.gif" width="551" alt="A IA rascunha a resposta; com o AUTO ligado, ela digita e responde sozinha"></p>
 
@@ -26,7 +33,12 @@
 
 Quem vende ou entrega trabalho pelo WhatsApp conhece a cena: quarenta grupos de cliente, um áudio de quatro minutos no meio da conversa, o print do bug perdido no scroll e o cliente que mandou mensagem há três dias e ninguém viu.
 
-Chatbot não resolve. Resposta pronta tem cara de robô, o cliente sente e a relação esfria. O que falta é alguém que leia tudo, responda como você e nunca deixe ninguém esperando. O WACrew é esse alguém, e você continua no controle de cada mensagem.
+Chatbot não resolve. Resposta pronta tem cara de robô, o cliente sente e a relação esfria. O WACrew funciona de outro jeito:
+
+- **Ninguém fica esperando.** Grupos e conversas entram numa fila só, quem espera há mais tempo primeiro, com o áudio já transcrito.
+- **Soa como você.** A resposta segue a sua pontuação, as suas aberturas e o seu ritmo, medidos nas suas mensagens, e passa por uma revisão que barra cara de robô antes de sair.
+- **Se move como gente.** Visto, digitando, pausa entre balões, e para se o cliente escrever de novo ou se você responder pelo celular.
+- **Você continua no comando.** O modo Confirmar é o padrão: nada sai sem o seu OK. Se o cliente perguntar se é IA, ela não mente; para e devolve a conversa para você.
 
 ![Conversa de cliente no WACrew: respostas da IA entregues em balões, com contrato, pessoas e notas do cliente ao lado](docs/screenshots/caixa-conversa.webp)
 
