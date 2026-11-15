@@ -25,6 +25,12 @@
   <a href="https://glama.ai/mcp/servers/sumioshi/wacrew"><img alt="Glama score" src="https://glama.ai/mcp/servers/sumioshi/wacrew/badges/score.svg"></a>
 </p>
 
+<p align="center">
+
+[![M8ven Score](https://m8ven.ai/badge/mcp/sumioshi-wacrew-nirsqy?v=df78a403b5ce59abfb89caed84ec593a)](https://m8ven.ai/mcp/sumioshi-wacrew-nirsqy?s=readme)
+
+</p>
+
 <p align="center"><a href="https://wacrew.com.br">wacrew.com.br</a> · <a href="./README.md">Read in English</a> · ⭐ <b>Se o WACrew te ajuda, uma estrela ajuda outras pessoas a acharem.</b></p>
 
 <p align="center"><img src="docs/screenshots/demo-auto.gif" width="551" alt="A IA rascunha a resposta; com o AUTO ligado, ela digita e responde sozinha"></p>
