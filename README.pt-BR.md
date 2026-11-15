@@ -27,7 +27,7 @@
 
 <p align="center">
 
-[![M8ven Score](https://m8ven.ai/badge/mcp/sumioshi-wacrew-nirsqy?v=df78a403b5ce59abfb89caed84ec593a)](https://m8ven.ai/mcp/sumioshi-wacrew-nirsqy?s=readme)
+[![M8ven Score](https://m8ven.ai/badge/mcp/sumioshi-wacrew-nirsqy)](https://m8ven.ai/mcp/sumioshi-wacrew-nirsqy?s=readme)
 
 </p>
 
