@@ -196,3 +196,52 @@ describe('plantao-stream.sh — outro coletor (PLANTAO_CLOUD)', () => {
     expect((await readdir(stateDir)).some((f) => f.startsWith('plantao-pessoal-'))).toBe(true);
   });
 });
+
+describe('plantao-stream.sh --uma-vez', { timeout: 15_000 }, () => {
+  it('imprime o primeiro evento e sai na hora, com a conexão ainda aberta', async () => {
+    responder = (_req, res) => {
+      res.write(frame('a=20', { slug: 'a', fromMe: true, origem: 'coletor', text: 'eco' }));
+      res.write(frame('a=30', { slug: 'a', fromMe: false, senderName: 'Carlos', text: 'oi' }));
+      res.write(frame('a=40', { slug: 'a', fromMe: false, senderName: 'Carlos', text: 'segunda' }));
+      // não fecha: o script tem que sair sozinho, sem esperar o curl
+    };
+    const t0 = Date.now();
+    const { out, saida } = rodar(['--uma-vez', 'a']);
+    expect(await saida).toBe(0);
+    expect(Date.now() - t0).toBeLessThan(5000);
+    expect(out).toEqual(['Carlos: oi']);
+  });
+
+  it('a execução seguinte retoma do evento impresso, e o lock é liberado', async () => {
+    responder = (_req, res, n) => {
+      if (n === 1) res.write(frame('a=30', { slug: 'a', fromMe: false, senderName: 'Carlos', text: 'oi' }));
+      else res.write(frame('a=40', { slug: 'a', fromMe: false, senderName: 'Carlos', text: 'segunda' }));
+    };
+    const primeira = rodar(['--uma-vez', 'a']);
+    expect(await primeira.saida).toBe(0);
+    const segunda = rodar(['--uma-vez', 'a']);
+    expect(await segunda.saida).toBe(0);
+    expect(segunda.out).toEqual(['Carlos: segunda']);
+    expect(pedidos[0]?.lastEventId).toBeUndefined();
+    expect(pedidos[1]?.lastEventId).toBe('a=30');
+  });
+
+  it('sem variáveis de ambiente, lê as credenciais de WAC_ENV_FILE', async () => {
+    responder = (_req, res) => {
+      res.write(frame('a=1', { slug: 'a', fromMe: false, senderName: 'Ana', text: 'oi' }));
+    };
+    const { writeFile } = await import('node:fs/promises');
+    const arq = join(stateDir, 'env');
+    await writeFile(arq, `WAC_CLOUD_URL=http://127.0.0.1:${porta}\nWAC_CLOUD_USER=u\nWAC_CLOUD_PASS=p\n`);
+    const p = spawn('sh', [SCRIPT, '--uma-vez', 'a'], {
+      env: { PATH: process.env.PATH ?? '', WAC_ENV_FILE: arq, PLANTAO_STATE_DIR: stateDir, PLANTAO_RETRY_S: '0' },
+      detached: true,
+    });
+    procs.push(p);
+    const out: string[] = [];
+    p.stdout.on('data', (b: Buffer) => out.push(...b.toString().split('\n').filter(Boolean)));
+    const codigo = await new Promise<number | null>((res) => p.on('exit', (c) => res(c)));
+    expect(codigo).toBe(0);
+    expect(out).toEqual(['Ana: oi']);
+  });
+});

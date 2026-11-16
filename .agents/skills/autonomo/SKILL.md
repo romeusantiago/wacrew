@@ -48,6 +48,8 @@ responde com o resultado. Continuam sendo decisão dele, mesmo liberado:
 
 Segunda conta (ex.: um WhatsApp pessoal com coletor próprio): as mesmas tools no MCP dela (no exemplo,
 `whatsapp-pessoal`) e `PLANTAO_CLOUD=pessoal` no comando do Monitor, separado da conta principal.
+Se um servidor só atende as duas contas, as tools trazem o parâmetro `conta`: passe sempre a conta
+em que o chat está.
 
 ## Ligar
 
@@ -72,6 +74,10 @@ Tudo no mesmo turno: depois que ele acaba, só mensagem nova te acorda.
    Um Monitor por sessão: se já existe, `TaskStop` e rearme com todos os slugs. Guarde o id do
    Monitor; ele muda a cada rearme. Nos chats em autônomo, os disparos seguem "A cada disparo"
    daqui, não a seção do plantão.
+
+   Sem `Monitor` (Antigravity, Codex): use o ciclo `--uma-vez` da skill `plantao`. Cada saída
+   do comando é um disparo; trate pela tabela abaixo e rode o comando de novo logo em seguida.
+   Sem rearmar, o autônomo para de ouvir, e a chave continua ligada na nuvem.
 5. **Pendência.** O que ficou em aberto no passo 2 você trata agora, pela tabela abaixo. O
    operador está na sessão: conte no aviso em vez de mandar push.
 6. **Aviso ao operador**, em poucas linhas: quais chats (e os parecidos que ficaram de fora); o
