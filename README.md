@@ -132,11 +132,19 @@ claude mcp add wacrew -e WAC_CLOUD_URL=https://your-panel.example.com \
 agy plugin install https://github.com/sumioshi/wacrew
 ```
 
-It installs turned off. Open `/plugin` (or Customizations in the editor), turn on WACrew and fill in the panel URL, login and password. To add only the MCP, flags go before the name:
+It installs turned off. Open `/plugin` (or Customizations in the editor), turn on WACrew and fill in the panel URL, login and password; other accounts go in the URL field after a space, as below. To add only the MCP, flags go before the name:
 
 ```bash
 agy mcp add -e WAC_CLOUD_URL=https://your-panel.example.com \
   -e WAC_CLOUD_USER=admin -e WAC_CLOUD_PASS=change-me wacrew npx -y wacrew-mcp
+```
+
+**More than one WhatsApp.** One server can talk to several panels. Add the others in `WAC_CONTAS` as `name=https://login:password@address`, separated by spaces (or put them after the main address in `WAC_CLOUD_URL`). Every tool then takes an optional `conta` parameter, and the agent picks the account per call. `WAC_CONTA_NOME` names the default one:
+
+```bash
+claude mcp add wacrew -e WAC_CLOUD_URL=https://work.example.com \
+  -e WAC_CLOUD_USER=admin -e WAC_CLOUD_PASS=change-me -e WAC_CONTA_NOME=work \
+  -e WAC_CONTAS="personal=https://admin:other-pass@personal.example.com" -- npx -y wacrew-mcp
 ```
 
 | Area | Tools |

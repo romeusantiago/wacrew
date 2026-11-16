@@ -132,11 +132,19 @@ claude mcp add wacrew -e WAC_CLOUD_URL=https://seu-painel.exemplo.com \
 agy plugin install https://github.com/sumioshi/wacrew
 ```
 
-Ele instala desligado. Abra o `/plugin` (ou Customizations, no editor), ligue o WACrew e preencha o endereço, o login e a senha do painel. Para adicionar só o MCP, as opções vêm antes do nome:
+Ele instala desligado. Abra o `/plugin` (ou Customizations, no editor), ligue o WACrew e preencha o endereço, o login e a senha do painel; outras contas vão no campo do endereço, depois de um espaço, como abaixo. Para adicionar só o MCP, as opções vêm antes do nome:
 
 ```bash
 agy mcp add -e WAC_CLOUD_URL=https://seu-painel.exemplo.com \
   -e WAC_CLOUD_USER=admin -e WAC_CLOUD_PASS=troque-esta-senha wacrew npx -y wacrew-mcp
+```
+
+**Mais de um WhatsApp.** Um servidor só fala com vários painéis. Coloque os outros em `WAC_CONTAS`, como `nome=https://login:senha@endereço`, separados por espaço (ou depois do endereço principal, no próprio `WAC_CLOUD_URL`). Toda ferramenta passa a aceitar o parâmetro opcional `conta`, e o agente escolhe a conta em cada chamada. `WAC_CONTA_NOME` dá nome à padrão:
+
+```bash
+claude mcp add wacrew -e WAC_CLOUD_URL=https://trabalho.exemplo.com \
+  -e WAC_CLOUD_USER=admin -e WAC_CLOUD_PASS=troque-esta-senha -e WAC_CONTA_NOME=trabalho \
+  -e WAC_CONTAS="pessoal=https://admin:outra-senha@pessoal.exemplo.com" -- npx -y wacrew-mcp
 ```
 
 | Área | Ferramentas |

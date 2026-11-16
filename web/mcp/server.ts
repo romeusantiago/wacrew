@@ -27,6 +27,7 @@ import { z } from "zod";
 // Imports do painel entram por caminho RELATIVO, nunca pelo alias "@/": este
 // arquivo roda sob tsx (fora do Next), que não resolve os paths do tsconfig —
 // o alias passa no tsc e no next build e só quebra na hora de subir o MCP.
+import { comConta, contas } from "../lib/contas";
 import { compact } from "../lib/context";
 import { type MessageView } from "../lib/data";
 import { ensureLocalMedia } from "../lib/cloud-media";
@@ -285,7 +286,9 @@ async function resolverMidia(
  */
 const VOZ = skillDeVoz();
 
-const INSTRUCTIONS = [
+const CONTAS = contas();
+
+const INSTRUCTIONS_BASE = [
   "Coletor de WhatsApp: ler histórico, acompanhar chats e responder por eles.",
   "",
   "ANTES DE ESCREVER QUALQUER MENSAGEM que vá pro WhatsApp (responder,",
@@ -323,6 +326,17 @@ const INSTRUCTIONS = [
   "código atrasa só a entrega, uma fração disso, e já soma o tempo de assistir a mídia.",
 ].join("\n");
 
+const INSTRUCTIONS =
+  CONTAS.length > 1
+    ? [
+        `CONTAS: este servidor fala com ${CONTAS.length} WhatsApps (${CONTAS.map((c) => c.nome).join(", ")}).`,
+        `Toda ferramenta aceita \`conta\`; sem ela, vale "${CONTAS[0].nome}". Slugs e chats são de cada`,
+        "conta: leia, responda e acompanhe sempre na mesma conta em que o chat está.",
+        "",
+        INSTRUCTIONS_BASE,
+      ].join("\n")
+    : INSTRUCTIONS_BASE;
+
 /**
  * MCP server local sobre os dados do coletor de WhatsApp.
  * Reaproveita as mesmas libs do painel (lib/data, lib/config, lib/transcribe).
@@ -335,6 +349,33 @@ const server = new McpServer(
   },
   { instructions: INSTRUCTIONS },
 );
+
+/**
+ * Com mais de uma conta configurada (`lib/contas.ts`), toda ferramenta ganha o parâmetro
+ * opcional `conta` e roda com aquela conta ativa: o acesso à nuvem lê dela. Com uma conta
+ * só, nada muda no schema.
+ */
+if (CONTAS.length > 1) {
+  const nomes = CONTAS.map((c) => c.nome) as [string, ...string[]];
+  const original = server.registerTool.bind(server) as (...args: unknown[]) => unknown;
+  type Config = { inputSchema?: Record<string, unknown> } & Record<string, unknown>;
+  type Handler = (args: Record<string, unknown>, extra: unknown) => unknown;
+  (server as unknown as { registerTool: (...args: unknown[]) => unknown }).registerTool = (...args: unknown[]) => {
+    const [nome, config, handler] = args as [unknown, Config, Handler];
+    const inputSchema = {
+      ...(config.inputSchema ?? {}),
+      conta: z
+        .enum(nomes)
+        .optional()
+        .describe(`Qual WhatsApp usar (${nomes.join(", ")}). Sem isso, "${nomes[0]}".`),
+    };
+    const comContaHandler = (args: Record<string, unknown>, extra: unknown) => {
+      const { conta, ...resto } = (args ?? {}) as Record<string, unknown> & { conta?: string };
+      return comConta(conta, () => handler(resto, extra));
+    };
+    return original(nome, { ...config, inputSchema }, comContaHandler);
+  };
+}
 
 function text(value: unknown) {
   const body = typeof value === "string" ? value : JSON.stringify(value, null, 2);

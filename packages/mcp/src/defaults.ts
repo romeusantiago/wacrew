@@ -10,6 +10,6 @@ import { join } from "node:path";
 process.env.WACREW_MCP_PACKAGED = "1";
 process.env.WAC_DATA_DIR ??= join(homedir(), ".wacrew", "data");
 process.env.WAC_GROUPS_CONFIG ??= join(homedir(), ".wacrew", "groups.config.json");
-if (process.env.WAC_CLOUD_URL && process.env.WAC_MCP_REMOTE === undefined) {
+if ((process.env.WAC_CLOUD_URL || process.env.WAC_CONTAS) && process.env.WAC_MCP_REMOTE === undefined) {
   process.env.WAC_MCP_REMOTE = "1";
 }

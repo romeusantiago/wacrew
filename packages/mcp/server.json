@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.sumioshi/wacrew-whatsapp-mcp",
-  "title": "WACrew · WhatsApp MCP server",
+  "title": "WACrew \u00b7 WhatsApp MCP server",
   "description": "WhatsApp MCP server: read chats and groups, transcribe voice notes and reply at a human pace.",
   "websiteUrl": "https://wacrew.com.br",
   "repository": {
@@ -9,12 +9,12 @@
     "source": "github",
     "subfolder": "packages/mcp"
   },
-  "version": "0.1.2",
+  "version": "0.1.3",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "wacrew-mcp",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "transport": {
         "type": "stdio"
       },
@@ -37,6 +37,19 @@
           "isRequired": true,
           "format": "string",
           "isSecret": true
+        },
+        {
+          "name": "WAC_CONTAS",
+          "description": "Optional. More WhatsApp accounts (other WACrew panels), as name=https://login:password@address separated by spaces. Every tool then takes a 'conta' parameter.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "WAC_CONTA_NOME",
+          "description": "Optional. Name of the default account when there is more than one (default: principal).",
+          "isRequired": false,
+          "format": "string"
         }
       ]
     }

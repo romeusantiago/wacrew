@@ -2,7 +2,10 @@
   "mcpServers": {
     "whatsapp": {
       "command": "npx",
-      "args": ["-y", "wacrew-mcp"],
+      "args": [
+        "-y",
+        "wacrew-mcp"
+      ],
       "env": {
         "WAC_MCP_REMOTE": "1",
         "WAC_CLOUD_URL": "${WAC_CLOUD_URL}",
@@ -14,7 +17,7 @@
         {
           "name": "WAC_CLOUD_URL",
           "title": "Panel URL",
-          "description": "Address of your WACrew panel (the self-hosted collector), for example https://wacrew.example.com.",
+          "description": "Address of your WACrew panel, for example https://wacrew.example.com. More than one WhatsApp? Add the other panels after a space as name=https://login:password@address.",
           "link": "https://github.com/sumioshi/wacrew#install"
         },
         {

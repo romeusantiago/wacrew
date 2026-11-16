@@ -1,10 +1,12 @@
 // Acesso READ-ONLY à instância da nuvem (sync de texto + mídia sob demanda).
 
+import { contaAtiva } from './contas';
+
 /** Base da nuvem (sem barra final). Lida NA HORA da chamada, não no carregamento do
  * módulo: o MCP server carrega o .env no boot, então este módulo pode ser importado
  * antes das envs existirem. Vazio = recursos de nuvem desligados. */
 export function cloudUrl(): string {
-  return (process.env.WAC_CLOUD_URL ?? '').replace(/\/+$/, '');
+  return (contaAtiva()?.url ?? '').replace(/\/+$/, '');
 }
 
 export function cloudEnabled(): boolean {
@@ -12,8 +14,9 @@ export function cloudEnabled(): boolean {
 }
 
 function authHeaders(): Record<string, string> {
-  const user = process.env.WAC_CLOUD_USER;
-  const pass = process.env.WAC_CLOUD_PASS;
+  const conta = contaAtiva();
+  const user = conta?.user;
+  const pass = conta?.pass;
   if (!user || !pass) return {};
   return { Authorization: `Basic ${Buffer.from(`${user}:${pass}`).toString('base64')}` };
 }
@@ -78,7 +81,7 @@ function sinalDaChamada(opts: CloudReqOpts): AbortSignal {
   return opts.signal ? AbortSignal.any([opts.signal, timeout]) : timeout;
 }
 
-/** Um coletor na nuvem (URL + Basic Auth). O trio `WAC_CLOUD_*` é o destino padrão;
+/** Um coletor na nuvem (URL + Basic Auth). A conta ativa (`contas.ts`) é o destino padrão;
  * quem precisa falar com outro coletor (ex.: o pessoal) monta o seu e usa `cloudPostTo`. */
 export interface CloudDestino {
   url: string;
@@ -86,11 +89,12 @@ export interface CloudDestino {
   pass?: string;
 }
 
-/** Destino lido das variáveis `WAC_CLOUD_*` (null se a nuvem está desligada). */
+/** Destino da conta ativa (null se a nuvem está desligada). */
 export function cloudDestinoDoEnv(): CloudDestino | null {
   const url = cloudUrl();
   if (!url) return null;
-  return { url, user: process.env.WAC_CLOUD_USER, pass: process.env.WAC_CLOUD_PASS };
+  const conta = contaAtiva();
+  return { url, user: conta?.user, pass: conta?.pass };
 }
 
 function authHeadersDe(destino: CloudDestino): Record<string, string> {
