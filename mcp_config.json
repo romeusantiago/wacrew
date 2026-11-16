@@ -1,0 +1,33 @@
+{
+  "mcpServers": {
+    "whatsapp": {
+      "command": "npx",
+      "args": ["-y", "wacrew-mcp"],
+      "env": {
+        "WAC_MCP_REMOTE": "1",
+        "WAC_CLOUD_URL": "${WAC_CLOUD_URL}",
+        "WAC_CLOUD_USER": "${WAC_CLOUD_USER}",
+        "WAC_CLOUD_PASS": "${WAC_CLOUD_PASS}",
+        "WAC_DATA_DIR": "${PLUGIN_DATA}"
+      },
+      "variables": [
+        {
+          "name": "WAC_CLOUD_URL",
+          "title": "Panel URL",
+          "description": "Address of your WACrew panel (the self-hosted collector), for example https://wacrew.example.com.",
+          "link": "https://github.com/sumioshi/wacrew#install"
+        },
+        {
+          "name": "WAC_CLOUD_USER",
+          "title": "Panel login",
+          "description": "The PANEL_USER you set on the server."
+        },
+        {
+          "name": "WAC_CLOUD_PASS",
+          "title": "Panel password",
+          "description": "The PANEL_PASS you set on the server."
+        }
+      ]
+    }
+  }
+}

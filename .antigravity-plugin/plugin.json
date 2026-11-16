@@ -1,0 +1,19 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "wacrew",
+  "displayName": "WACrew",
+  "version": "0.1.2",
+  "description": "WhatsApp for AI agents: read and search groups and chats, transcribe voice notes, see screenshots and videos, and reply at a human pace from your self-hosted WACrew panel.",
+  "logo": "web/public/icon-512.png",
+  "skills": ["./.agents/skills"],
+  "suggestedPrompts": [
+    "Who is waiting for a reply on WhatsApp right now?",
+    "Summarize what the client asked today in the project group",
+    "Draft a reply to the last message and show it to me before sending"
+  ],
+  "author": { "name": "Rodrigo Sumioshi", "url": "https://rodrigosumioshi.com" },
+  "homepage": "https://wacrew.com.br",
+  "repository": "https://github.com/sumioshi/wacrew",
+  "license": "Apache-2.0",
+  "keywords": ["whatsapp", "mcp", "crm", "customer-support", "messaging", "self-hosted", "voice-notes"]
+}

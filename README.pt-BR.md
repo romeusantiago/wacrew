@@ -126,7 +126,13 @@ claude mcp add wacrew -e WAC_CLOUD_URL=https://seu-painel.exemplo.com \
   -e WAC_CLOUD_USER=admin -e WAC_CLOUD_PASS=troque-esta-senha -- npx -y wacrew-mcp
 ```
 
-No Antigravity, a CLI `agy` recebe o mesmo comando, com as opções antes do nome:
+**Plugin do Antigravity.** O repositório também é um plugin do Antigravity, com o MCP e as skills (`plantao`, `autonomo`, `link-whatsapp`, `comunicacao-cliente`):
+
+```bash
+agy plugin install https://github.com/sumioshi/wacrew
+```
+
+Ele instala desligado. Abra o `/plugin` (ou Customizations, no editor), ligue o WACrew e preencha o endereço, o login e a senha do painel. Para adicionar só o MCP, as opções vêm antes do nome:
 
 ```bash
 agy mcp add -e WAC_CLOUD_URL=https://seu-painel.exemplo.com \
