@@ -11,8 +11,9 @@ Arma **UM** Monitor do harness que acorda o agente a cada mensagem nova de um ch
 via **SSE da nuvem** — funciona com o Mac "limpo" (não precisa de coletor local, `npm run dev`,
 pm2 nem sync). O coletor 24/7 é o da nuvem (Railway); o Mac só segura uma conexão HTTP.
 
-REPO = raiz do repo whatsapp-automation. Use paths ABSOLUTOS (a sessão pode estar em outro
-diretório). Se não souber onde o repo está, descubra pelo symlink desta skill:
+REPO = raiz do repositório do WACrew, ou a pasta do plugin quando instalado como plugin (no
+Antigravity, `~/.gemini/config/plugins/wacrew`). Use paths ABSOLUTOS (a sessão pode estar em
+outro diretório). No Claude Code, com a skill instalada por symlink, descubra assim:
 ```bash
 REPO="$(dirname "$(dirname "$(dirname "$(readlink -f ~/.claude/skills/plantao)")")")"
 ```
@@ -30,7 +31,8 @@ nome é ambíguo**, descubra por contexto — NUNCA escolha sozinho:
 
 **1. Resolver o slug** (nome do chat → slug):
 ```bash
-cd $REPO && set -a && . ./.env; set +a
+# credenciais: ~/.wacrew/env (vale em qualquer runtime) ou o arquivo de variáveis da raiz do repo
+for f in "$HOME/.wacrew/env" "$REPO/.env"; do [ -f "$f" ] && { set -a; . "$f"; set +a; break; }; done
 curl -s -u "$WAC_CLOUD_USER:$WAC_CLOUD_PASS" "$WAC_CLOUD_URL/api/groups/summary" \
   | python3 -c 'import sys,json
 for g in json.load(sys.stdin):
