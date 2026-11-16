@@ -16,19 +16,17 @@
 </p>
 
 <p align="center">
-  <a href="./LICENSE"><img alt="Licença: Apache 2.0" src="https://img.shields.io/badge/licen%C3%A7a-Apache_2.0-blue.svg"></a>
-  <a href="https://nodejs.org"><img alt="Node 20+" src="https://img.shields.io/badge/node-%E2%89%A520-43853d.svg"></a>
-  <a href="https://github.com/WhiskeySockets/Baileys"><img alt="Feito com Baileys" src="https://img.shields.io/badge/feito%20com-Baileys-25D366.svg"></a>
-  <a href="https://github.com/sponsors/sumioshi"><img alt="Patrocinar" src="https://img.shields.io/github/sponsors/sumioshi?label=Patrocinar&logo=githubsponsors&color=ea4aaa"></a>
-  <a href="https://modelcontextprotocol.io"><img alt="Servidor MCP" src="https://img.shields.io/badge/MCP-36%20tools-6366f1.svg"></a>
-  <a href="https://www.npmjs.com/package/wacrew-mcp"><img alt="npm" src="https://img.shields.io/npm/v/wacrew-mcp.svg?label=npm"></a>
-  <a href="https://glama.ai/mcp/servers/sumioshi/wacrew"><img alt="Glama score" src="https://glama.ai/mcp/servers/sumioshi/wacrew/badges/score.svg"></a>
+  <a href="./LICENSE"><img alt="Licença: Apache 2.0" src="https://img.shields.io/badge/licen%C3%A7a-Apache_2.0-blue.svg" height="20"></a>
+  <a href="https://nodejs.org"><img alt="Node 20+" src="https://img.shields.io/badge/node-%E2%89%A520-43853d.svg" height="20"></a>
+  <a href="https://github.com/WhiskeySockets/Baileys"><img alt="Feito com Baileys" src="https://img.shields.io/badge/feito%20com-Baileys-25D366.svg" height="20"></a>
+  <a href="https://github.com/sponsors/sumioshi"><img alt="Patrocinar" src="https://img.shields.io/github/sponsors/sumioshi?label=Patrocinar&logo=githubsponsors&color=ea4aaa" height="20"></a>
+  <a href="https://modelcontextprotocol.io"><img alt="Servidor MCP" src="https://img.shields.io/badge/MCP-36%20tools-6366f1.svg" height="20"></a>
+  <a href="https://www.npmjs.com/package/wacrew-mcp"><img alt="npm" src="https://img.shields.io/npm/v/wacrew-mcp.svg?label=npm" height="20"></a>
+  <a href="https://glama.ai/mcp/servers/sumioshi/wacrew"><img alt="Glama score" src="https://glama.ai/mcp/servers/sumioshi/wacrew/badges/score.svg" height="20"></a>
 </p>
 
 <p align="center">
-
-[![M8ven Score](https://m8ven.ai/badge/mcp/sumioshi-wacrew-nirsqy)](https://m8ven.ai/mcp/sumioshi-wacrew-nirsqy?s=readme)
-
+  <a href="https://m8ven.ai/mcp/sumioshi-wacrew-nirsqy?s=readme"><img alt="M8ven Score" src="https://m8ven.ai/badge/mcp/sumioshi-wacrew-nirsqy" height="20"></a>
 </p>
 
 <p align="center"><a href="https://wacrew.com.br">wacrew.com.br</a> · <a href="./README.md">Read in English</a> · ⭐ <b>Se o WACrew te ajuda, uma estrela ajuda outras pessoas a acharem.</b></p>
@@ -109,7 +107,7 @@ cp .env.example .env   # defina PANEL_USER e PANEL_PASS
 docker compose up -d
 ```
 
-[![Implantar na Hostinger](docs/assets/deploy-hostinger-pt.svg)](https://www.hostinger.com/br/servidor-vps?REFERRALCODE=ORISHODIRBUH) [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/wacrew?referralCode=8ZIi5q&utm_medium=integration&utm_source=template&utm_campaign=generic)
+<a href="https://www.hostinger.com/br/servidor-vps?REFERRALCODE=ORISHODIRBUH"><img alt="Implantar na Hostinger" src="docs/assets/deploy-hostinger-pt.svg" height="32"></a> <a href="https://railway.com/deploy/wacrew?referralCode=8ZIi5q&utm_medium=integration&utm_source=template&utm_campaign=generic"><img alt="Deploy on Railway" src="https://railway.com/button.svg" height="32"></a>
 
 <sub>Links de indicação: você ganha desconto ou créditos, e o projeto recebe uma comissão que ajuda a mantê-lo. Na Railway o template já cria o volume, o login e uma senha gerada para você.</sub>
 
@@ -216,7 +214,7 @@ A lógica compartilhada entre o painel e o MCP fica em `web/lib/`. Veja o [CONTR
 
 O WACrew é gratuito e de código aberto. Quem patrocina mantém o projeto vivo e ganha nome ou logo aqui.
 
-<a href="https://github.com/sponsors/sumioshi"><img src="https://img.shields.io/badge/Seja%20o%20primeiro%20patrocinador-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Seja o primeiro patrocinador"></a>
+<a href="https://github.com/sponsors/sumioshi"><img src="https://img.shields.io/badge/Seja%20o%20primeiro%20patrocinador-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Seja o primeiro patrocinador" height="28"></a>
 
 ## Licença
 
