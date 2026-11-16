@@ -85,7 +85,7 @@ More screens in [`docs/screenshots/`](docs/screenshots): org chart, team access,
 
 - **Collector** (`src/`): a Baileys daemon (WhatsApp Web multi-device, no browser). Baileys is isolated behind ports and adapters in `src/whatsapp/`. It writes every message, reaction and media file to `data/<chat>/` and runs the delivery queue that sends replies at a human pace.
 - **Panel** (`web/`): Next.js 16 + React 19. Inbox, conversation view, clients, dashboard, calendar, team, 2D office, settings. Live updates over SSE.
-- **MCP server** (`web/mcp/server.ts`): 36 tools over the same data, for Claude Code, Codex, Qwen Code or any MCP client.
+- **MCP server** (`web/mcp/server.ts`): 36 tools over the same data, for Claude Code, Codex, Antigravity, Gemini CLI, Qwen Code or any MCP client.
 - **Transcriber** (`transcriber/`): Whisper large-v3 via MLX, loaded on demand and released when idle. Off a Mac, set `TRANSCRIBE_BACKEND=openrouter`.
 - **Local or cloud.** Run everything on your machine, or deploy the collector and panel 24/7 with the included `Dockerfile` (a `railway.json` is provided). The local MCP can read straight from the cloud panel (`WAC_MCP_REMOTE=1`), downloading media on demand.
 
@@ -124,6 +124,13 @@ The server is registered by `.mcp.json` (project scope). Claude Code and Qwen Co
 ```bash
 claude mcp add wacrew -e WAC_CLOUD_URL=https://your-panel.example.com \
   -e WAC_CLOUD_USER=admin -e WAC_CLOUD_PASS=change-me -- npx -y wacrew-mcp
+```
+
+In Antigravity, the `agy` CLI takes the same command, with the flags before the name:
+
+```bash
+agy mcp add -e WAC_CLOUD_URL=https://your-panel.example.com \
+  -e WAC_CLOUD_USER=admin -e WAC_CLOUD_PASS=change-me wacrew npx -y wacrew-mcp
 ```
 
 | Area | Tools |

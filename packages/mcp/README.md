@@ -2,7 +2,7 @@
 
 MCP server for [WACrew](https://wacrew.com.br): open-source WhatsApp AI automation.
 
-It lets Claude Code, Codex, Cursor or any MCP client read, search and reply to your WhatsApp
+It lets Claude Code, Codex, Cursor, Antigravity, Gemini CLI or any MCP client read, search and reply to your WhatsApp
 groups and chats. Voice notes are transcribed, screenshots and videos can be inspected, PDFs read.
 Replies go through a deterministic review that blocks robot-sounding text and are delivered at a
 human pace (read receipt, typing indicator, pauses), cancelling themselves if the client writes again.
@@ -33,6 +33,16 @@ claude mcp add wacrew \
   -e WAC_CLOUD_USER=admin \
   -e WAC_CLOUD_PASS=change-me \
   -- npx -y wacrew-mcp
+```
+
+In Antigravity (`agy` CLI), flags go before the name:
+
+```bash
+agy mcp add \
+  -e WAC_CLOUD_URL=https://your-panel.example.com \
+  -e WAC_CLOUD_USER=admin \
+  -e WAC_CLOUD_PASS=change-me \
+  wacrew npx -y wacrew-mcp
 ```
 
 Or in any MCP client config:

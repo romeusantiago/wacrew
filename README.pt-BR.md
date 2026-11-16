@@ -85,7 +85,7 @@ Mais telas em [`docs/screenshots/`](docs/screenshots): organograma, acesso da eq
 
 - **Coletor** (`src/`): daemon Baileys (WhatsApp Web multidispositivo, sem navegador). O Baileys fica isolado atrás de portas e adaptadores em `src/whatsapp/`. Grava toda mensagem, reação e mídia em `data/<chat>/` e roda a fila que entrega as respostas no ritmo humano.
 - **Painel** (`web/`): Next.js 16 + React 19. Caixa de entrada, conversa, clientes, painel, agenda, equipe, escritório 2D e configurações. Atualiza ao vivo por SSE.
-- **Servidor MCP** (`web/mcp/server.ts`): 36 ferramentas sobre os mesmos dados, para Claude Code, Codex, Qwen Code ou qualquer cliente MCP.
+- **Servidor MCP** (`web/mcp/server.ts`): 36 ferramentas sobre os mesmos dados, para Claude Code, Codex, Antigravity, Gemini CLI, Qwen Code ou qualquer cliente MCP.
 - **Transcrição** (`transcriber/`): Whisper large-v3 via MLX, carregado sob demanda e liberado quando ocioso. Fora do Mac, use `TRANSCRIBE_BACKEND=openrouter`.
 - **Local ou nuvem.** Rode tudo na sua máquina, ou suba o coletor e o painel 24 horas com o `Dockerfile` incluso (tem `railway.json` pronto). O MCP local pode ler direto do painel na nuvem (`WAC_MCP_REMOTE=1`), baixando a mídia sob demanda.
 
@@ -124,6 +124,13 @@ O servidor é registrado pelo `.mcp.json` (escopo do projeto). Claude Code e Qwe
 ```bash
 claude mcp add wacrew -e WAC_CLOUD_URL=https://seu-painel.exemplo.com \
   -e WAC_CLOUD_USER=admin -e WAC_CLOUD_PASS=troque-esta-senha -- npx -y wacrew-mcp
+```
+
+No Antigravity, a CLI `agy` recebe o mesmo comando, com as opções antes do nome:
+
+```bash
+agy mcp add -e WAC_CLOUD_URL=https://seu-painel.exemplo.com \
+  -e WAC_CLOUD_USER=admin -e WAC_CLOUD_PASS=troque-esta-senha wacrew npx -y wacrew-mcp
 ```
 
 | Área | Ferramentas |
