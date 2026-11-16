@@ -35,6 +35,8 @@
 
 <p align="center"><img src="docs/screenshots/demo-auto.gif" width="551" alt="The AI drafts a reply; flipping AUTO on, it types and answers on its own"></p>
 
+<p align="center"><a href="https://wacrew.com.br/en/#video"><img src="docs/assets/vsl-en.jpg" width="640" alt="Watch the 55-second video: from WhatsApp chaos to every client answered"></a><br><sub>▶ Watch the 55-second video</sub></p>
+
 ## Why
 
 If you sell or deliver work over WhatsApp, you know the scene: forty client groups, a four-minute voice note in the middle of a thread, the bug screenshot lost in the scroll, and the client who wrote three days ago that nobody saw.

@@ -35,6 +35,8 @@
 
 <p align="center"><img src="docs/screenshots/demo-auto.gif" width="551" alt="A IA rascunha a resposta; com o AUTO ligado, ela digita e responde sozinha"></p>
 
+<p align="center"><a href="https://wacrew.com.br/#video"><img src="docs/assets/vsl-pt.jpg" width="640" alt="Assista ao vídeo de 55 segundos: do caos no WhatsApp a todo cliente respondido"></a><br><sub>▶ Assista ao vídeo de 55 segundos</sub></p>
+
 ## Por quê
 
 Quem vende ou entrega trabalho pelo WhatsApp conhece a cena: quarenta grupos de cliente, um áudio de quatro minutos no meio da conversa, o print do bug perdido no scroll e o cliente que mandou mensagem há três dias e ninguém viu.
