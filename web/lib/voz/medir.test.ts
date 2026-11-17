@@ -19,9 +19,10 @@ const reg = (timestamp: string, text: string, extra: Partial<RegistroVoz> = {}):
 });
 
 describe('quem digitou', () => {
-  it('celular e web são da pessoa; coletor e IA da Meta não', () => {
+  it('celular é da pessoa; web só antes do corte; coletor e IA da Meta nunca', () => {
     expect(digitadaPelaPessoa(reg('2026-10-01', 'oi', { origem: 'celular' }), '2026-01-01')).toBe(true);
-    expect(digitadaPelaPessoa(reg('2026-10-01', 'oi', { origem: 'web' }), '2026-01-01')).toBe(true);
+    expect(digitadaPelaPessoa(reg('2026-10-01', 'oi', { origem: 'web' }), '2026-01-01')).toBe(false);
+    expect(digitadaPelaPessoa(reg('2025-10-01', 'oi', { origem: 'web' }), '2026-01-01')).toBe(true);
     expect(digitadaPelaPessoa(reg('2026-10-01', 'oi', { origem: 'coletor' }), null)).toBe(false);
     expect(digitadaPelaPessoa(reg('2026-10-01', 'oi', { origem: 'ia_meta' }), null)).toBe(false);
     expect(digitadaPelaPessoa(reg('2026-10-01', 'oi', { fromMe: false }), null)).toBe(false);

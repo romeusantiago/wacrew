@@ -2115,7 +2115,8 @@ server.registerTool(
     description:
       "Gera a skill de voz do operador (como ele escreve no WhatsApp) medindo as mensagens que ele mesmo digitou no " +
       "histórico do coletor: tamanho do balão, pontuação, abreviações, tratamento, aberturas, emoji, risada e exemplos " +
-      "reais por situação, separados em modo trabalho e pessoal. O que a automação mandou fica de fora (campo `origem`). " +
+      "reais por situação, separados em modo trabalho e pessoal. O que a automação mandou fica de fora (campo `origem`; " +
+      "WhatsApp Web e mensagens sem origem só contam antes do primeiro envio automático). " +
       "Use quando o operador pedir pra criar ou atualizar a voz dele, ou quando a skill de voz ainda for o molde com " +
       "placeholders. Devolve `skill` (o SKILL.md completo), `resumo` e `triagem` (cada chat, score e modo). Mostre o " +
       "resumo e a triagem ao operador; se ele disser que um chat está no modo errado, chame de novo com `trabalho`/" +

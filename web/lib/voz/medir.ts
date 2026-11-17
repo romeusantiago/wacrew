@@ -36,15 +36,18 @@ const MARCADORES_PESSOAIS = [
 ];
 
 /**
- * Mensagem digitada pela pessoa (e não pela automação). `origem` celular/web é sempre
- * dela; `coletor` e `ia_meta` nunca. Sem `origem` (coletor antigo ou histórico
- * sincronizado do celular) só vale antes do primeiro envio automático conhecido.
+ * Mensagem digitada pela pessoa (e não pela automação). `celular` é sempre dela;
+ * `coletor` e `ia_meta` nunca. `web` e sem `origem` só valem antes do primeiro envio
+ * automático: outro aparelho conectado na mesma conta (um segundo coletor, uma
+ * ferramenta de automação) aparece para o WhatsApp como "web", e numa conta real o
+ * que entrou como `web` depois da automação tinha o dobro do tamanho e da vírgula do
+ * que a pessoa escreve no celular.
  */
 export function digitadaPelaPessoa(r: RegistroVoz, corte: string | null, filtro: FiltroHumano = {}): boolean {
   if (!r.fromMe) return false;
   if (r.ator === 'painel') return !!filtro.donoPainel && r.usuario === filtro.donoPainel;
-  if (r.origem === 'celular' || r.origem === 'web') return true;
-  if (r.origem) return false;
+  if (r.origem === 'celular') return true;
+  if (r.origem && r.origem !== 'web') return false;
   return corte === null || r.timestamp < corte;
 }
 

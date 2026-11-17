@@ -67,7 +67,7 @@ export function montarSkill(d: DadosSkill): string {
   partes.push(`# Voz de ${quem}
 
 > Gerada pelo WACrew (\`gerar_voz\`) em ${d.geradoEm.slice(0, 10)}. Só entram mensagens digitadas pela
-> pessoa: celular, WhatsApp Web, painel do dono${d.corte ? ` e as sem origem anteriores a ${d.corte.slice(0, 10)}` : ''}. O que a automação mandou fica de fora,
+> pessoa: celular, painel do dono${d.corte ? ` e as do WhatsApp Web ou sem origem anteriores a ${d.corte.slice(0, 10)}` : ''}. O que a automação mandou fica de fora,
 > para o perfil não aprender o próprio eco. Gere de novo quando o volume crescer.
 >
 > Os exemplos são reais e foram escolhidos por regra (sem link, e-mail ou número longo). Leia,
