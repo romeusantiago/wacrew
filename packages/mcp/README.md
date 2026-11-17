@@ -7,7 +7,7 @@ groups and chats. Voice notes are transcribed, screenshots and videos can be ins
 Replies go through a deterministic review that blocks robot-sounding text and are delivered at a
 human pace (read receipt, typing indicator, pauses), cancelling themselves if the client writes again.
 
-36 tools: `listar_grupos`, `ler_mensagens`, `buscar`, `resumo_do_dia`, `transcrever`, `ver_imagem`,
+37 tools: `listar_grupos`, `ler_mensagens`, `buscar`, `resumo_do_dia`, `transcrever`, `ver_imagem`,
 `assistir_video`, `ler_documento`, `preparar_resposta`, `revisar_texto`, `responder`,
 `status_envio`, `cancelar_envio` and more. Full list in the
 [main README](https://github.com/sumioshi/wacrew#mcp-tools).

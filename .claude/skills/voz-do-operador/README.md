@@ -3,6 +3,12 @@
 Esta pasta é um **molde**. Ela não descreve ninguém até você rodar a extração sobre o
 seu próprio histórico e preencher os campos `{{...}}` do `SKILL.md`.
 
+**Caminho rápido:** peça ao seu agente para rodar a ferramenta `gerar_voz` do MCP. Ela mede
+o seu histórico direto no coletor (local ou na nuvem), separa sozinha o que você digitou do
+que a automação mandou, divide trabalho e pessoal e devolve o `SKILL.md` preenchido, com
+exemplos reais. O agente mostra a triagem, você corrige o que estiver no modo errado, e ele
+grava a skill. O passo a passo abaixo é o caminho manual, para quem quer revisar cada número.
+
 O objetivo: quando o agente escrever uma mensagem que vai pro WhatsApp em seu nome, que
 ela soe como **você**, e não como um assistente educado. A diferença entre as duas
 coisas é medível, e é isso que o script mede.

@@ -20,7 +20,7 @@
   <a href="https://nodejs.org"><img alt="Node 20+" src="https://img.shields.io/badge/node-%E2%89%A520-43853d.svg" height="20"></a>
   <a href="https://github.com/WhiskeySockets/Baileys"><img alt="Feito com Baileys" src="https://img.shields.io/badge/feito%20com-Baileys-25D366.svg" height="20"></a>
   <a href="https://github.com/sponsors/sumioshi"><img alt="Patrocinar" src="https://img.shields.io/github/sponsors/sumioshi?label=Patrocinar&logo=githubsponsors&color=ea4aaa" height="20"></a>
-  <a href="https://modelcontextprotocol.io"><img alt="Servidor MCP" src="https://img.shields.io/badge/MCP-36%20tools-6366f1.svg" height="20"></a>
+  <a href="https://modelcontextprotocol.io"><img alt="Servidor MCP" src="https://img.shields.io/badge/MCP-37%20tools-6366f1.svg" height="20"></a>
   <a href="https://www.npmjs.com/package/wacrew-mcp"><img alt="npm" src="https://img.shields.io/npm/v/wacrew-mcp.svg?label=npm" height="20"></a>
   <a href="https://glama.ai/mcp/servers/sumioshi/wacrew"><img alt="Glama score" src="https://glama.ai/mcp/servers/sumioshi/wacrew/badges/score.svg" height="20"></a>
 </p>
@@ -83,7 +83,7 @@ Mais telas em [`docs/screenshots/`](docs/screenshots): organograma, acesso da eq
 
 - **Coletor** (`src/`): daemon Baileys (WhatsApp Web multidispositivo, sem navegador). O Baileys fica isolado atrás de portas e adaptadores em `src/whatsapp/`. Grava toda mensagem, reação e mídia em `data/<chat>/` e roda a fila que entrega as respostas no ritmo humano.
 - **Painel** (`web/`): Next.js 16 + React 19. Caixa de entrada, conversa, clientes, painel, agenda, equipe, escritório 2D e configurações. Atualiza ao vivo por SSE.
-- **Servidor MCP** (`web/mcp/server.ts`): 36 ferramentas sobre os mesmos dados, para Claude Code, Codex, Antigravity, Gemini CLI, Qwen Code ou qualquer cliente MCP.
+- **Servidor MCP** (`web/mcp/server.ts`): 37 ferramentas sobre os mesmos dados, para Claude Code, Codex, Antigravity, Gemini CLI, Qwen Code ou qualquer cliente MCP.
 - **Transcrição** (`transcriber/`): Whisper large-v3 via MLX, carregado sob demanda e liberado quando ocioso. Fora do Mac, use `TRANSCRIBE_BACKEND=openrouter`.
 - **Local ou nuvem.** Rode tudo na sua máquina, ou suba o coletor e o painel 24 horas com o `Dockerfile` incluso (tem `railway.json` pronto). O MCP local pode ler direto do painel na nuvem (`WAC_MCP_REMOTE=1`), baixando a mídia sob demanda.
 
@@ -149,7 +149,7 @@ claude mcp add wacrew -e WAC_CLOUD_URL=https://trabalho.exemplo.com \
 |---|---|
 | Ler | `listar_grupos`, `ler_mensagens`, `buscar`, `listar_contatos`, `caixa_de_entrada`, `novidades`, `resumo_do_dia`, `ler_notas`, `estado_triagem` |
 | Mídia | `transcrever`, `ver_imagem`, `ver_video`, `assistir_video`, `ler_documento` |
-| Responder | `preparar_resposta`, `revisar_texto`, `responder`, `responder_midia`, `editar_mensagem`, `reagir`, `status_envio`, `cancelar_envio` |
+| Responder | `preparar_resposta`, `revisar_texto`, `responder`, `responder_midia`, `editar_mensagem`, `reagir`, `status_envio`, `cancelar_envio`, `gerar_voz` |
 | Triagem e CRM | `marcar_resolvido`, `silenciar_grupo`, `anotar`, `etiquetar`, `alertar_chat`, `definir_modo`, `definir_contrato`, `registrar_feature`, `dashboard`, `editar_perfil` |
 | Agenda | `agenda_ver`, `agenda_marcar`, `agenda_editar`, `agenda_apagar` |
 
@@ -158,6 +158,7 @@ Destaques:
 - `buscar` acha texto **dentro das transcrições** também.
 - `ver_imagem` e `ver_video` entregam a mídia para o modelo enxergar, o que ajuda muito com print de bug. `assistir_video` faz um modelo Gemini assistir o vídeo com áudio, anexado ou por link.
 - `responder` devolve um **ticket**, e a mensagem sai depois, no ritmo humano: segundos numa conversa ativa, minutos a horas numa fria. A entrega é interrompida se o cliente escrever ou se você responder na mão. `status_envio` acompanha e `cancelar_envio` cancela.
+- `gerar_voz` mede como você escreve nas mensagens que você mesmo digitou (o que a automação mandou fica de fora) e devolve a skill de voz pronta para o seu agente, separada em trabalho e pessoal.
 - `preparar_resposta` devolve o seu estilo recente e o que o cliente deixou em aberto. Mande 2 ou 3 `candidatos` no `responder` e sai o que menos destoa de você.
 
 ## Configuração

@@ -82,6 +82,7 @@ import {
   dsRegistrarFeature,
   dsDashboard,
   dsCaixaEntrada,
+  dsGerarVoz,
   dsAgendaApagar,
   dsAgendaCriar,
   dsAgendaEditar,
@@ -2104,6 +2105,45 @@ server.registerTool(
       return text({ ok: true, apagado: id });
     } catch (e) {
       return fail(e instanceof Error ? e.message : "falha ao apagar o evento");
+    }
+  },
+);
+
+server.registerTool(
+  "gerar_voz",
+  {
+    description:
+      "Gera a skill de voz do operador (como ele escreve no WhatsApp) medindo as mensagens que ele mesmo digitou no " +
+      "histórico do coletor: tamanho do balão, pontuação, abreviações, tratamento, aberturas, emoji, risada e exemplos " +
+      "reais por situação, separados em modo trabalho e pessoal. O que a automação mandou fica de fora (campo `origem`). " +
+      "Use quando o operador pedir pra criar ou atualizar a voz dele, ou quando a skill de voz ainda for o molde com " +
+      "placeholders. Devolve `skill` (o SKILL.md completo), `resumo` e `triagem` (cada chat, score e modo). Mostre o " +
+      "resumo e a triagem ao operador; se ele disser que um chat está no modo errado, chame de novo com `trabalho`/" +
+      "`pessoal`. Depois grave `skill` em ~/.claude/skills/<nome>/SKILL.md (e ~/.agents/skills/<nome>/ para Codex/" +
+      "Qwen; no Antigravity, num plugin local) e, se o nome não for voz-do-operador, ponha WAC_SKILL_VOZ=<nome> no " +
+      "env deste MCP. Nunca publique a skill: os exemplos são conversas reais. Só lê o histórico.",
+    inputSchema: {
+      antes: z.string().optional().describe("ISO: mensagens da conta SEM origem só contam antes desta data (a data em que a automação começou a enviar). Default: o primeiro envio automático registrado"),
+      trabalho: z.array(z.string()).optional().describe("slugs que vão para o modo trabalho, por cima do score"),
+      pessoal: z.array(z.string()).optional().describe("slugs que vão para o modo pessoal (amigo e família), por cima do score"),
+      minimo: z.number().int().positive().optional().describe("mínimo de mensagens da pessoa para um chat entrar (default 25)"),
+      nome: z.string().optional().describe("nome da skill gerada, kebab-case (default voz-do-operador)"),
+    },
+  },
+  async ({ antes, trabalho, pessoal, minimo, nome }) => {
+    try {
+      if (antes && Number.isNaN(Date.parse(antes))) return fail("antes precisa ser uma data ISO");
+      if (nome && !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(nome)) return fail("nome precisa ser kebab-case");
+      const r = await dsGerarVoz({
+        ...(antes ? { antes: new Date(antes).toISOString() } : {}),
+        ...(trabalho?.length ? { trabalho } : {}),
+        ...(pessoal?.length ? { pessoal } : {}),
+        ...(minimo ? { minimo } : {}),
+        ...(nome ? { nome } : {}),
+      });
+      return text(r);
+    } catch (e) {
+      return fail(e instanceof Error ? e.message : "falha ao gerar a voz");
     }
   },
 );

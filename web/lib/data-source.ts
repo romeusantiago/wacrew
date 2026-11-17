@@ -431,6 +431,21 @@ export async function dsCaixaEntrada(opts: OpcoesCaixa = {}): Promise<CaixaEntra
   return caixaDeEntrada(opts);
 }
 
+/** Skill de voz medida no histórico (remoto: o coletor da nuvem mede; local: mede aqui). */
+export async function dsGerarVoz(opts: import('./voz/gerar').OpcoesVoz = {}): Promise<import('./voz/gerar').ResultadoVoz> {
+  if (mcpRemote()) {
+    const q = new URLSearchParams();
+    if (opts.antes) q.set('antes', opts.antes);
+    if (opts.trabalho?.length) q.set('trabalho', opts.trabalho.join(','));
+    if (opts.pessoal?.length) q.set('pessoal', opts.pessoal.join(','));
+    if (opts.minimo) q.set('minimo', String(opts.minimo));
+    if (opts.nome) q.set('nome', opts.nome);
+    return cloudJson(`/api/voz?${q.toString()}`);
+  }
+  const { gerarVoz } = await import('./voz/gerar');
+  return gerarVoz(opts);
+}
+
 /** A agenda só existe na nuvem: o token do Google mora no volume do painel. */
 function exigirNuvem(): void {
   if (!mcpRemote()) throw new Error('a agenda mora na nuvem: ligue WAC_MCP_REMOTE=1 com WAC_CLOUD_* configurado');
