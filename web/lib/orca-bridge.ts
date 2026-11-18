@@ -186,6 +186,44 @@ export function getOrcaBin(): string | null {
   return null;
 }
 
+/**
+ * Alguma linha do `ps -axo command=` é do app do Orca aberto? Vale o binário principal do
+ * bundle sem o script da CLI, ou um helper do Electron (só existe com o app de pé). A própria
+ * CLI roda o mesmo binário com `out/cli/index.js`, então essa linha não conta.
+ */
+export function processoDoAppOrca(psOutput: string): boolean {
+  return psOutput.split('\n').some((linha) => {
+    if (linha.includes('/out/cli/')) return false;
+    return /\/Orca\.app\/Contents\/MacOS\/Orca(\s|$)/.test(linha) || linha.includes('/Orca Helper');
+  });
+}
+
+const APP_ABERTO_TTL_MS = 5_000;
+let appAbertoCache: { ts: number; aberto: boolean } | null = null;
+
+/**
+ * O app do Orca está aberto? Sem ele não há terminal pra espelhar, e cada chamada da CLI sobe
+ * o Electron inteiro (~30% de CPU por um segundo). O `ps` custa milissegundos. Fora do macOS, ou
+ * se o `ps` falhar, devolve true e mantém o comportamento de antes.
+ */
+export async function orcaAppAberto(): Promise<boolean> {
+  if (process.platform !== 'darwin') return true;
+  const agora = Date.now();
+  if (appAbertoCache && agora - appAbertoCache.ts < APP_ABERTO_TTL_MS) return appAbertoCache.aberto;
+  let aberto = true;
+  try {
+    const { stdout } = await execFileAsync('ps', ['-axo', 'command='], {
+      timeout: 3000,
+      maxBuffer: 16 * 1024 * 1024,
+    });
+    aberto = processoDoAppOrca(stdout);
+  } catch {
+    aberto = true;
+  }
+  appAbertoCache = { ts: agora, aberto };
+  return aberto;
+}
+
 function parseOrcaJsonOutput<T>(stdout: string): T | null {
   const idx = stdout.indexOf('{');
   if (idx < 0) return null;

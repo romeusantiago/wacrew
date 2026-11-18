@@ -9,6 +9,7 @@ import {
   type OrcaCommandResult,
   type OrcaPendingCommand,
   type OrcaSnapshot,
+  orcaAppAberto,
   readLocalOrcaSnapshot,
   readLocalTerminalScreen,
 } from './orca-bridge';
@@ -182,6 +183,8 @@ export function startOrcaRemoteRelayLoop(
   opts: OrcaRelayLoopOptions = {},
 ): void {
   if (relayStarted) return;
+  // Desliga a ponte neste processo, pra máquina que não usa o Orca.
+  if (process.env.WAC_ORCA_RELAY === '0') return;
   if (!getOrcaBin()) return;
   relayStarted = true;
 
@@ -247,10 +250,21 @@ export function startOrcaRemoteRelayLoop(
     if (destinos.length === 0) return;
     running = true;
     try {
+      // A vez antes da CLI: só quem segura o lock de algum destino lê o Orca. Antes, todo
+      // processo (dois MCPs por sessão aberta) subia a CLI a cada passada e só depois
+      // descobria que outro já sincronizava; com várias sessões eram várias CLIs por segundo.
+      const comVez: OrcaRelayDestino[] = [];
+      for (const destino of destinos) {
+        if (await acquireOrcaRelayLock(orcaRelayLockFile(destino), myPid)) comVez.push(destino);
+        else opts.onCycle?.({ destino, lock: false, executed: 0 });
+      }
+      if (comVez.length === 0) return;
+      // Com o app do Orca fechado não há terminal pra espelhar: a CLI nem sobe.
+      if (!(await orcaAppAberto())) return;
       // Uma leitura da CLI por passada, compartilhada pelos destinos.
       const snapshot = await lerSnapshotParaRelay().catch(() => null);
       // Destinos em paralelo: um coletor lento ou fora do ar não atrasa o outro.
-      await Promise.all(destinos.map((destino) => cicloDoDestino(destino, snapshot)));
+      await Promise.all(comVez.map((destino) => cicloDoDestino(destino, snapshot)));
     } finally {
       running = false;
     }

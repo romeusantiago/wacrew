@@ -12,6 +12,7 @@ let falharPush = false;
 
 vi.mock('./orca-bridge', () => ({
   getOrcaBin: () => '/fake/orca',
+  orcaAppAberto: async () => true,
   readLocalOrcaSnapshot: async (): Promise<OrcaSnapshot> =>
     ({ available: true, source: 'local-cli', bySlug: {}, updatedAt: new Date().toISOString() }) as OrcaSnapshot,
   readLocalTerminalScreen: async () => null,

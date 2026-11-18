@@ -315,6 +315,10 @@ e em modo Organograma:
     disputa com o do business; o lock só é renovado em ciclo que deu certo, então um dono
     travado perde a vez em 12 s. Sem daemon nem MCP, a nuvem congela num snapshot velho: o
     pill da barra fica amarelo (> 60 s) e o painel de status avisa.
+    A vez vem antes da CLI: só o processo que segura o lock lê o Orca, e só com o app do Orca
+    aberto (`orcaAppAberto`, um `ps` com cache de 5 s). Cada chamada da CLI sobe o Electron
+    inteiro; com o snapshot lido antes do lock, cada MCP aberto (dois por sessão) chamava a
+    CLI a cada passada. `WAC_ORCA_RELAY=0` desliga a ponte no processo.
   - **Painel de status:** o pill `🐋 Orca` da barra superior é um botão sempre visível (verde =
     local ou remoto fresco, amarelo = remoto parado, cinza = offline) que abre `OrcaStatusPanel`:
     fonte, host de origem, runtime, versão, idade do snapshot, contadores, hosts, ambientes
