@@ -29,6 +29,8 @@
   <a href="https://m8ven.ai/mcp/sumioshi-wacrew-nirsqy?s=readme"><img alt="M8ven Score" src="https://m8ven.ai/badge/mcp/sumioshi-wacrew-nirsqy" height="20"></a>
 </p>
 
+<p align="center"><a href="https://vibehub.academy/"><img alt="Supported by Vibehub Academy" src="docs/assets/apoio-vibehub-en.svg" height="32"></a></p>
+
 <p align="center"><a href="https://wacrew.com.br">wacrew.com.br</a> · <a href="./README.pt-BR.md">Leia em português</a> · ⭐ <b>If WACrew helps you, a star helps others find it.</b></p>
 
 <p align="center"><img src="docs/screenshots/demo-auto.gif" width="551" alt="The AI drafts a reply; flipping AUTO on, it types and answers on its own"></p>
